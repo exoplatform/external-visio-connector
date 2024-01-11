@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 eXo Platform SAS.
+ * Copyright (C) 2024 eXo Platform SAS.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -14,24 +14,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.webconferencing.externalVisio;
+package org.exoplatform.webconferencing.externalvisio;
 
 import org.exoplatform.webconferencing.CallProvider;
 import org.exoplatform.webconferencing.CallProviderException;
 import org.exoplatform.webconferencing.UserInfo;
 import org.exoplatform.container.configuration.ConfigurationException;
 
-public class ExternalVideoProvider extends CallProvider {
+public class ExternalVisioProvider extends CallProvider {
 
   /**
-   * The Constant EXTERNAL_VIDEO_TYPE.
+   * The Constant EXTERNAL_VISIO_TYPE.
    */
-  public static final String EXTERNAL_VIDEO_TYPE  = "externalVideo";
+  public static final String EXTERNAL_VISIO_TYPE  = "externalVisio";
 
   /**
-   * The Constant EXTERNAL_VIDEO_TITLE.
+   * The Constant EXTERNAL_VISIO_TITLE.
    */
-  public static final String EXTERNAL_VIDEO_TITLE = "ExternalVideo";
+  public static final String EXTERNAL_VISIO_TITLE = "ExternalVisio";
 
   /**
    * Instantiates a new web conferencing provider.
@@ -39,13 +39,13 @@ public class ExternalVideoProvider extends CallProvider {
    * @param params the params
    * @throws ConfigurationException the configuration exception
    */
-  public ExternalVideoProvider(org.exoplatform.container.xml.InitParams params) throws ConfigurationException {
+  public ExternalVisioProvider(org.exoplatform.container.xml.InitParams params) throws ConfigurationException {
     super(params);
   }
 
   @Override
   public String getTitle() {
-    return EXTERNAL_VIDEO_TITLE;
+    return EXTERNAL_VISIO_TITLE;
   }
 
   @Override
@@ -55,7 +55,7 @@ public class ExternalVideoProvider extends CallProvider {
 
   @Override
   public String getType() {
-    return EXTERNAL_VIDEO_TYPE;
+    return EXTERNAL_VISIO_TYPE;
   }
 
   @Override

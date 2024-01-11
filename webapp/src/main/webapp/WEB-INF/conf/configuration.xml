@@ -24,6 +24,6 @@
   xsi:schemaLocation="http://www.exoplatform.org/xml/ns/kernel_1_3.xsd http://www.exoplatform.org/xml/ns/kernel_1_3.xsd"
   xmlns="http://www.exoplatform.org/xml/ns/kernel_1_3.xsd">
   
-  <!-- External Video configuration -->
-  <import profiles="all">war:/conf/externalVideo/configuration.xml</import>
+  <!-- External Visio configuration -->
+  <import profiles="webconferencing">war:/conf/externalvisio/configuration.xml</import>
 </configuration>

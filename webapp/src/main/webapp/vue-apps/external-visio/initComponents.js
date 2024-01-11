@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import externalVideo from './components/ExternalVideo.vue';
-import ExternalVideoToolbar from './components/ExternalVideoToolbar.vue';
+import ExternalVisio from './components/ExternalVisio.vue';
+import ExternalVisioToolbar from './components/ExternalVisioToolbar.vue';
 
 const components = {
-  'external-video': externalVideo,
-  'external-video-toolbar': ExternalVideoToolbar
+  'external-visio': ExternalVisio,
+  'external-visio-toolbar': ExternalVisioToolbar
 };
 
 for (const key in components) {

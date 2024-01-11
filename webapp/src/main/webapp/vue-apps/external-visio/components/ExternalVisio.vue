@@ -15,21 +15,21 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 -->
 <template>
-  <v-app id="ExternalVideoAdmin">
-    <h4 class="text-color mb-0">{{ $t('externalVideo.admin.settings.title') }}</h4>
-    <span class="caption text-light-color">{{ $t('externalVideo.admin.settings.description') }}</span>
-    <external-video-toolbar />
+  <v-app id="ExternalVisioAdmin">
+    <h4 class="text-color mb-0">{{ $t('externalVisio.admin.settings.title') }}</h4>
+    <span class="caption text-light-color">{{ $t('externalVisio.admin.settings.description') }}</span>
+    <external-visio-toolbar />
     <v-data-table
       :headers="headers"
-      :items="externalVideoConnector"
+      :items="externalVisioConnectors"
       :items-per-page="itemsPerPage"
       :hide-default-footer="hideFooter"
       :footer-props="{
-        itemsPerPageText: `${$t('externalVideo.settings.itemsPerPage')}:`,
+        itemsPerPageText: `${$t('externalVisio.settings.itemsPerPage')}:`,
       }"
-      :loading-text="$t('externalVideo.settings.loadingResults')"
-      :no-results-text="$t('externalVideo.settings.noResultsFound')"
-      :no-data-text="$t('externalVideo.settings.noExternalVideo')"
+      :loading-text="$t('externalVisio.settings.loadingResults')"
+      :no-results-text="$t('externalVisio.settings.noResultsFound')"
+      :no-data-text="$t('externalVisio.settings.noExternalVisio')"
       disable-sort>
       <template slot="item" slot-scope="props">
         <tr>
@@ -66,15 +66,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 export default {
   data: () => ({
     headers: [],
-    externalVideoConnector: [],
+    externalVisioConnectors: [],
     itemsPerPage: 10,
     hideFooter: false,
   }),
   created() {
     this.headers = [
-      { text: 'Name', align: 'left' },
-      { text: 'Order', align: 'right' , width: '60px'},
-      { text: 'Edit', align: 'center' , width: '60px'}
+      { text: this.$t('externalVisio.settings.name'), align: 'left' },
+      { text: this.$t('externalVisio.settings.order'), align: 'right' , width: '60px'},
+      { text: this.$t('externalVisio.settings.edit'), align: 'center' , width: '60px'}
     ];
   }
 };

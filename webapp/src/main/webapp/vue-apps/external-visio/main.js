@@ -29,25 +29,25 @@ if (extensionRegistry) {
 Vue.use(Vuetify);
 const vuetify = new Vuetify(eXo.env.portal.vuetifyPreset);
 
-const appId = 'ExternalVideoAdmin';
+const appId = 'ExternalVisioAdmin';
 
 //getting language of the PLF
 const lang = eXo?.env.portal.language || 'en';
-const url = `${eXo.env.portal.context}/${eXo.env.portal.rest}/i18n/bundle/locale.portlet..externalVideo.ExternalVideo-${lang}.json`;
+const url = `${eXo.env.portal.context}/${eXo.env.portal.rest}/i18n/bundle/locale.portlet.externalvisio.ExternalVisio-${lang}.json`;
 
 
-extensionRegistry.registerComponent('manageExternalVisio', 'manage-external-visio', {
+extensionRegistry.registerComponent('additional-visio-actions', 'manage-external-visio', {
   id: 'manage-external-visio',
-  vueComponent: Vue.options.components['external-video'],
+  vueComponent: Vue.options.components['external-visio'],
   rank: 20,
 });
 
 exoi18n.loadLanguageAsync(lang, url).then(i18n => {
   // init Vue app when locale resources are ready
   Vue.createApp({
-    template: `<external-video id="${appId}" />`,
+    template: `<external-visio id="${appId}" />`,
     vuetify,
     i18n
-  }, `#${appId}`, 'External Video Connector');
+  }, `#${appId}`, 'External Visio Connector');
 });
 

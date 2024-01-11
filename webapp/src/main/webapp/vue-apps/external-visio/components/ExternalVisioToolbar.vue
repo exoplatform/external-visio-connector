@@ -15,12 +15,12 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 -->
 <template>
-  <v-flex id="externalVideoToolbar" class="d-flex flex-row">
+  <v-flex id="externalVisioToolbar" class="d-flex flex-row">
     <v-flex class="d-flex flex-grow-0 pt-2">
       <v-btn
         class="btn btn-primary">
         <span class="d-none d-sm-inline">
-          {{ $t('externalVideo.button.addConnector') }}
+          {{ $t('externalVisio.button.addConnector') }}
         </span>
       </v-btn>
     </v-flex>
@@ -31,10 +31,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
           v-model="filter"
           class="width-auto my-auto me-2 pe-2 subtitle-1 ignore-vuetify-classes d-none d-sm-inline">
           <option value="ENABLED">
-            {{ $t('externalVideo.status.enabled') }}
+            {{ $t('externalVisio.status.enabled') }}
           </option>
           <option value="DISABLED">
-            {{ $t('externalVideo.status.disabled') }}
+            {{ $t('externalVisio.status.disabled') }}
           </option>
         </select>
       </v-scale-transition>
