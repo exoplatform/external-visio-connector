@@ -36,8 +36,9 @@ const lang = eXo?.env.portal.language || 'en';
 const url = `${eXo.env.portal.context}/${eXo.env.portal.rest}/i18n/bundle/locale.portlet.externalvisio.ExternalVisio-${lang}.json`;
 
 
-extensionRegistry.registerComponent('additional-visio-actions', 'manage-external-visio', {
-  id: 'manage-external-visio',
+extensionRegistry.registerComponent('additional-visio-actions', 'external-visio-additional-actions', {
+  id: 'external-visio',
+  name: 'ExternalVisio',
   vueComponent: Vue.options.components['external-visio'],
   rank: 20,
 });
