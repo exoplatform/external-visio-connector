@@ -27,7 +27,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
       <useProjectArtifact>false</useProjectArtifact>
       <outputDirectory>/webapps</outputDirectory>
       <includes>
-        <include>${project.groupId}:*:war</include>
+        <include>${project.groupId}:external-visio-connector-webapp:war</include>
       </includes>
       <scope>compile</scope>
       <outputFileNameMapping>${artifact.build.finalName}.${artifact.extension}</outputFileNameMapping>
@@ -37,7 +37,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
       <useProjectArtifact>false</useProjectArtifact>
       <outputDirectory>/lib</outputDirectory>
       <includes>
-        <include>*:*:jar</include>
+        <include>${project.groupId}:external-visio-connector-services:jar</include>
       </includes>
       <scope>compile</scope>
       <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
