@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses
   <parent>
     <groupId>org.exoplatform.addons.external-visio-connector</groupId>
     <artifactId>external-visio-connector</artifactId>
-    <version>1.0.x-SNAPSHOT</version>
+    <version>1.0.x-maintenance-SNAPSHOT</version>
   </parent>
 
   <artifactId>external-visio-connector-services</artifactId>
