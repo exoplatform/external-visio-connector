@@ -19,7 +19,6 @@ package org.exoplatform.webconferencing.externalvisio.rest.util;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
 
-
 public class EntityBuilder {
 
   public static ExternalVisioConnector fromEntity(ExternalVisioConnectorEntity externalVisioConnectorEntity) {
@@ -28,8 +27,8 @@ public class EntityBuilder {
     }
     return new ExternalVisioConnector(externalVisioConnectorEntity.getId(),
                                       externalVisioConnectorEntity.getName(),
-                                      externalVisioConnectorEntity.getIsUserConnector(),
-                                      externalVisioConnectorEntity.getIsSpaceConnector());
+                                      externalVisioConnectorEntity.isActiveForUsers(),
+                                      externalVisioConnectorEntity.isActiveForSpaces());
   }
 
   public static ExternalVisioConnectorEntity toEntity(ExternalVisioConnector externalVisioConnector) {
@@ -38,8 +37,8 @@ public class EntityBuilder {
     }
     return new ExternalVisioConnectorEntity(externalVisioConnector.getId(),
                                             externalVisioConnector.getName(),
-                                            externalVisioConnector.getIsUserConnector(),
-                                            externalVisioConnector.getIsSpaceConnector());
+                                            externalVisioConnector.isActiveForUsers(),
+                                            externalVisioConnector.isActiveForSpaces());
   }
 
 }

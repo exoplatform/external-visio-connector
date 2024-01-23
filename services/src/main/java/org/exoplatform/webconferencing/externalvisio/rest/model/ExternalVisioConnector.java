@@ -29,8 +29,8 @@ public class ExternalVisioConnector {
 
   private String  name;
 
-  private Boolean isUserConnector;
+  private boolean activeForUsers;
 
-  private Boolean isSpaceConnector;
+  private boolean activeForSpaces;
 
 }

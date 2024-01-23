@@ -21,15 +21,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.exoplatform.commons.api.persistence.ExoEntity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "ExternalVisioConnector")
@@ -52,10 +45,10 @@ public class ExternalVisioConnectorEntity implements Serializable {
   @Column(name = "NAME", nullable = false)
   private String            name;
 
-  @Column(name = "USER_CONNECTOR")
-  private Boolean           isUserConnector;
+  @Column(name = "ACTIVE_FOR_USERS")
+  private boolean           activeForUsers;
 
-  @Column(name = "SPACE_CONNECTOR")
-  private Boolean           isSpaceConnector;
+  @Column(name = "ACTIVE_FOR_SPACES")
+  private boolean           activeForSpaces;
 
 }

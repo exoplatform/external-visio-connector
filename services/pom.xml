@@ -49,21 +49,20 @@ along with this program. If not, see <http://www.gnu.org/licenses
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>org.exoplatform.gatein.portal</groupId>
+      <artifactId>exo.portal.component.common</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.exoplatform.ws</groupId>
       <artifactId>exo.ws.rest.core</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>jakarta.persistence</groupId>
-      <artifactId>jakarta.persistence-api</artifactId>
-      <version>3.2.0-B02</version>
-      <scope>compile</scope>
+      <groupId>org.exoplatform.addons.web-conferencing</groupId>
+      <artifactId>web-conferencing-services</artifactId>
+      <type>jar</type>
+      <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.exoplatform.gatein.portal</groupId>
-      <artifactId>exo.portal.component.common</artifactId>
-      <version>6.6.x-maintenance-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
+
   </dependencies>
 </project>

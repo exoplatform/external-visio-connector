@@ -1,8 +1,8 @@
 export function saveExternalVisioConnector(externalVisioName, isUserConnector, isSpaceConnector) {
   const externalVisioConnector = {
     name: externalVisioName,
-    isUserConnector: isUserConnector,
-    isSpaceConnector: isSpaceConnector
+    activeForUsers: isUserConnector,
+    activeForSpaces: isSpaceConnector
   };
   return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio`, {
     method: 'POST',
