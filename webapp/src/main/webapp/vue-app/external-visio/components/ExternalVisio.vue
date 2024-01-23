@@ -43,13 +43,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
               <v-tooltip top>
                 <template #activator="{ on, attrs }">
                   <v-btn 
+                    v-if="displayArrowUp(props.item)"
                     icon
                     small
                     v-bind="attrs"
                     v-on="on"
                     @click="moveUp(props.item)">
                     <v-icon
-                      v-if="displayArrowUp(props.item)"
                       size="18"
                       class="primary--text">
                       {{ 'fa-arrow-up' }}
@@ -61,13 +61,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
               <v-tooltip top>
                 <template #activator="{ on, attrs }">
                   <v-btn 
+                    v-if="displayArrowDown(props.item)"
                     icon
                     small
                     v-bind="attrs"
                     v-on="on"
                     @click="moveDown(props.item)">
                     <v-icon
-                      v-if="displayArrowDown(props.item)"
                       size="18"
                       class="primary--text">
                       {{ 'fa-arrow-down' }}

@@ -37,10 +37,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             <column name="NAME" type="NVARCHAR(250)">
                 <constraints nullable="false"/>
             </column>
-            <column name="USER_CONNECTOR" type="BOOLEAN" defaultValueBoolean="false">
+            <column name="ACTIVE_FOR_USERS" type="BOOLEAN" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="SPACE_CONNECTOR" type="BOOLEAN" defaultValueBoolean="false">
+            <column name="ACTIVE_FOR_SPACES" type="BOOLEAN" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
         </createTable>

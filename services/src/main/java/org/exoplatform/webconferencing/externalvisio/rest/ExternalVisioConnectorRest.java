@@ -30,15 +30,18 @@ import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnec
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import java.util.List;
+import java.util.Objects;
 
 @Path("/v1/externalVisio")
 @Tag(name = "/v1/externalVisio", description = "Manages external visio connector")
 public class ExternalVisioConnectorRest implements ResourceContainer {
 
-  private static final Log                    LOG = ExoLogger.getLogger(ExternalVisioConnectorRest.class);
+  private static final Log                    LOG                          =
+                                                  ExoLogger.getLogger(ExternalVisioConnectorRest.class);
+
+  private static final CacheControl           EXTERNAL_VISIO_CACHE_CONTROL = new CacheControl();
 
   private final ExternalVisioConnectorService externalVisioConnectorService;
 
@@ -49,7 +52,7 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @RolesAllowed("users")
+  @RolesAllowed("administrators")
   @Operation(summary = "Creates a new External visio connector", description = "Creates a new External visio connector", method = "POST")
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "400", description = "Invalid query input"),
@@ -76,10 +79,18 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
   @Operation(summary = "Retrieves the list of external visio connectors", description = "Retrieves the list of external visio connectors for an authenticated user", method = "GET")
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error"), })
-  public Response getExternalVisioConnectors() {
+  public Response getExternalVisioConnectors(@Context
+  Request request) {
     try {
       List<ExternalVisioConnector> externalVisioConnectors = externalVisioConnectorService.getExternalVisioConnectors();
-      return Response.ok(externalVisioConnectors).build();
+      EntityTag eTag = new EntityTag(String.valueOf(Objects.hash(externalVisioConnectors)));
+      Response.ResponseBuilder builder = request.evaluatePreconditions(eTag);
+      if (builder == null) {
+        builder = Response.ok(externalVisioConnectors);
+      }
+      builder.tag(eTag);
+      builder.cacheControl(EXTERNAL_VISIO_CACHE_CONTROL);
+      return builder.build();
     } catch (Exception e) {
       LOG.warn("Error retrieving list of external visio connectors", e);
       return Response.serverError().entity(e.getMessage()).build();
