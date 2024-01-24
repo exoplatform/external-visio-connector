@@ -35,6 +35,7 @@ const config = {
   ],
   entry: {
     externalVisio: './src/main/webapp/vue-apps/external-visio/main.js',
+    externalVisioConnector: './src/main/webapp/vue-apps/external-visio-connector/main.js',
   },
   output: {
     path: path.join(__dirname, 'target/external-visio/'),
