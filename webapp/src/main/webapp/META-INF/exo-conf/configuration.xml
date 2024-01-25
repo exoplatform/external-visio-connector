@@ -36,13 +36,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
         </values-param>
         <object-param>
           <name>change</name>
-          <object type="org.exoplatform.container.definition.PortalContainerDefinitionChange$AddDependencies">
+          <object type="org.exoplatform.container.definition.PortalContainerDefinitionChange$AddDependenciesAfter">
             <field name="dependencies">
               <collection type="java.util.ArrayList">
                 <value>
-                  <string>external-visio-connector</string>
+                  <string>external-visio</string>
                 </value>
               </collection>
+            </field>
+            <field name="target">
+              <string>webconferencing</string>
             </field>
           </object>
         </object-param>     
