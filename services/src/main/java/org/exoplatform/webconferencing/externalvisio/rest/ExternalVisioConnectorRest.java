@@ -17,6 +17,7 @@
 package org.exoplatform.webconferencing.externalvisio.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -37,8 +38,7 @@ import java.util.List;
 @Tag(name = "/v1/externalVisio", description = "Manages external visio connector")
 public class ExternalVisioConnectorRest implements ResourceContainer {
 
-  private static final Log                    LOG                          =
-                                                  ExoLogger.getLogger(ExternalVisioConnectorRest.class);
+  private static final Log                    LOG = ExoLogger.getLogger(ExternalVisioConnectorRest.class);
 
   private final ExternalVisioConnectorService externalVisioConnectorService;
 
@@ -76,10 +76,11 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
   @Operation(summary = "Retrieves the list of external visio connectors", description = "Retrieves the list of external visio connectors for an authenticated user", method = "GET")
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error"), })
-  public Response getExternalVisioConnectors(@Context
-  Request request) {
+  public Response getExternalVisioConnectors(@Parameter(description = "filter ExternalVisioConnector by status", required = true)
+  @QueryParam("enabled")
+  Boolean enabled) {
     try {
-      List<ExternalVisioConnector> externalVisioConnectors = externalVisioConnectorService.getExternalVisioConnectors();
+      List<ExternalVisioConnector> externalVisioConnectors = externalVisioConnectorService.getExternalVisioConnectors(enabled);
       return Response.ok(externalVisioConnectors).build();
     } catch (Exception e) {
       LOG.warn("Error retrieving list of external visio connectors", e);

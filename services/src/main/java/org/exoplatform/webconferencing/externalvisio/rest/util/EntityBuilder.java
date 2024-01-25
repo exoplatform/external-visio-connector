@@ -28,7 +28,8 @@ public class EntityBuilder {
     return new ExternalVisioConnector(externalVisioConnectorEntity.getId(),
                                       externalVisioConnectorEntity.getName(),
                                       externalVisioConnectorEntity.isActiveForUsers(),
-                                      externalVisioConnectorEntity.isActiveForSpaces());
+                                      externalVisioConnectorEntity.isActiveForSpaces(),
+                                      externalVisioConnectorEntity.isEnabled());
   }
 
   public static ExternalVisioConnectorEntity toEntity(ExternalVisioConnector externalVisioConnector) {
@@ -38,7 +39,9 @@ public class EntityBuilder {
     return new ExternalVisioConnectorEntity(externalVisioConnector.getId(),
                                             externalVisioConnector.getName(),
                                             externalVisioConnector.isActiveForUsers(),
-                                            externalVisioConnector.isActiveForSpaces());
+                                            externalVisioConnector.isActiveForSpaces(),
+                                            externalVisioConnector.isEnabled());
+
   }
 
 }
