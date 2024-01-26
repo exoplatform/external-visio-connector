@@ -30,6 +30,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
       <v-scale-transition>
         <select
           v-model="filter"
+          :aria-label="$t('externalVisio.filter.label')"
           class="width-auto my-auto me-2 pe-2 subtitle-1 ignore-vuetify-classes d-none d-sm-inline">
           <option value="ENABLED">
             {{ $t('externalVisio.status.enabled') }}
