@@ -32,7 +32,6 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.List;
-import java.util.Objects;
 
 @Path("/v1/externalVisio")
 @Tag(name = "/v1/externalVisio", description = "Manages external visio connector")
@@ -40,8 +39,6 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
 
   private static final Log                    LOG                          =
                                                   ExoLogger.getLogger(ExternalVisioConnectorRest.class);
-
-  private static final CacheControl           EXTERNAL_VISIO_CACHE_CONTROL = new CacheControl();
 
   private final ExternalVisioConnectorService externalVisioConnectorService;
 
@@ -83,14 +80,7 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
   Request request) {
     try {
       List<ExternalVisioConnector> externalVisioConnectors = externalVisioConnectorService.getExternalVisioConnectors();
-      EntityTag eTag = new EntityTag(String.valueOf(Objects.hash(externalVisioConnectors)));
-      Response.ResponseBuilder builder = request.evaluatePreconditions(eTag);
-      if (builder == null) {
-        builder = Response.ok(externalVisioConnectors);
-      }
-      builder.tag(eTag);
-      builder.cacheControl(EXTERNAL_VISIO_CACHE_CONTROL);
-      return builder.build();
+      return Response.ok(externalVisioConnectors).build();
     } catch (Exception e) {
       LOG.warn("Error retrieving list of external visio connectors", e);
       return Response.serverError().entity(e.getMessage()).build();
