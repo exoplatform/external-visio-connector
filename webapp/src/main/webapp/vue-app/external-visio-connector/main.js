@@ -10,10 +10,10 @@ window.require(['SHARED/webConferencing','SHARED/webConferencingPortlet','SHARED
 //        return resp.json();
 //      }
 //    }).then((data) => {
-      var data = '';
-      webConferencingPortlet.start();
-      webConferencing_externalvisio.configure(data);
-      webConferencing.addProvider(webConferencing_externalvisio);
+  const data = '';
+  webConferencingPortlet.start();
+  webConferencing_externalvisio.configure(data);
+  webConferencing.addProvider(webConferencing_externalvisio);
 //    });
 //  }
 });
