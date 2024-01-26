@@ -81,6 +81,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
           <td>
             <div class="align-center">
               <v-btn 
+                v-bind="attrs"
+                v-on="on"
+                :title="$t('externalVisio.settings.editConnector')"
                 primary
                 icon>
                 <i class="uiIconEdit"></i>
