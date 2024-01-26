@@ -80,18 +80,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
           </td>
           <td>
             <div class="align-center">
-              <v-tooltip top>
-                <template #activator="{ on, attrs }">
-                  <v-btn 
-                    v-bind="attrs"
-                    v-on="on"
-                    primary
-                    icon>
-                    <i class="uiIconEdit"></i>
-                  </v-btn>
-                </template>
-                <span>{{ $t('externalVisio.settings.editConnector') }}</span>
-              </v-tooltip>
+              <v-btn 
+                v-bind="attrs"
+                v-on="on"
+                :title="$t('externalVisio.settings.editConnector')"
+                primary
+                icon>
+                <i class="uiIconEdit"></i>
+              </v-btn>
             </div>
           </td>
         </tr>

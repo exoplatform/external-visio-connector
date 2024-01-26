@@ -31,7 +31,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             @click="close()">
             fas fa-arrow-left
           </v-icon>
-          <span> {{ $t('externalVisio.drawer.addVisioConnector.title') }} </span>
+          <span> {{ $t('externalVisio.drawer.addConnector.title') }} </span>
         </div>
       </template>
       <template slot="content">
@@ -51,7 +51,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
               class="pt-0"
               type="text"
               required="required"
-              :placeholder="placeholder"
+              :placeholder="$t('externalVisio.nameConnector.placeholder')"
               outlined
               dense>
               <template #append>
@@ -121,7 +121,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 export default {
   data () {
     return {
-      placeholder: 'Enter the name of the web conferencing',
       externalVisioName: '',
       isUserConnector: true,
       isSpaceConnector: true,
