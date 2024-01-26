@@ -18,7 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
   <v-flex id="externalVisioToolbar" class="d-flex flex-row">
     <v-flex class="d-flex flex-grow-0 pt-2">
       <v-btn
-        class="btn btn-primary">
+        class="btn btn-primary"
+        @click="$root.$emit('open-external-visio-add-drawer')">
         <span class="d-none d-sm-inline">
           {{ $t('externalVisio.button.addConnector') }}
         </span>
