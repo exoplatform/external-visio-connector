@@ -26,9 +26,11 @@ import java.util.List;
 
 public class ExternalVisioConnectorDAO extends GenericDAOJPAImpl<ExternalVisioConnectorEntity, Long> {
 
-  public List<ExternalVisioConnectorEntity> getExternalVisioConnectors() {
-    TypedQuery<ExternalVisioConnectorEntity> query = getEntityManager().createNamedQuery("ExternalVisioConnector.getExternalVisioConnectors",
-            ExternalVisioConnectorEntity.class);
+  public List<ExternalVisioConnectorEntity> getExternalVisioConnectors(boolean enabled) {
+    TypedQuery<ExternalVisioConnectorEntity> query =
+                                                   getEntityManager().createNamedQuery("ExternalVisioConnector.getExternalVisioConnectors",
+                                                                                       ExternalVisioConnectorEntity.class)
+                                                                     .setParameter("enabled", enabled);
 
     try {
       return query.getResultList();

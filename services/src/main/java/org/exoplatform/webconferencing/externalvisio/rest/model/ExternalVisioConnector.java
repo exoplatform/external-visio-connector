@@ -33,4 +33,6 @@ public class ExternalVisioConnector {
 
   private boolean activeForSpaces;
 
+  private boolean enabled;
+
 }
