@@ -28,6 +28,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
           <v-icon
             size="16"
             class="clickable"
+            :aria-label="$t('externalVisio.close.label')"
             @click="close()">
             fas fa-arrow-left
           </v-icon>
@@ -53,16 +54,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
               required="required"
               :placeholder="$t('externalVisio.nameConnector.placeholder')"
               outlined
-              dense>
-              <template #append>
-                <v-btn
-                  class="mt-n2 pt-2px"
-                  icon
-                  @click="openTranslationDrawer">
-                  <v-icon color="primary">fas fa-language</v-icon>
-                </v-btn>
-              </template>
-            </v-text-field>
+              dense />
           </v-card-text>
           <v-card-text class="d-flex flex-row pt-8">
             <v-label>
@@ -82,6 +74,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             <v-spacer />
             <v-switch      
               v-model="isUserConnector"
+              :aria-label="$t('externalVisio.tooltip.userModuleConnector', {0: isUserConnector ? 'Disable' : 'Enable'})"
               class="mt-0 pt-0" />
           </v-card-text>
           <v-card-text class="d-flex flex-row">
@@ -94,6 +87,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             <v-spacer />
             <v-switch      
               v-model="isSpaceConnector"
+              :aria-label="$t('externalVisio.tooltip.spaceModuleConnector', {0: isSpaceConnector ? 'Disable' : 'Enable'})"
               class="mt-0 pt-0" />
           </v-card-text>
         </v-form>
