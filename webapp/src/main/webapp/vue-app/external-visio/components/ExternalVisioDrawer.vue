@@ -74,7 +74,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             <v-spacer />
             <v-switch      
               v-model="isUserConnector"
-              :aria-label="$t('externalVisio.tooltip.userModuleConnector', {0: isUserConnector ? 'Disable' : 'Enable'})"
+              :aria-label="this.$t(`externalVisio.tooltip.userModuleConnector.${this.switchUserAriaLabel}`)"
               class="mt-0 pt-0" />
           </v-card-text>
           <v-card-text class="d-flex flex-row">
@@ -87,7 +87,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             <v-spacer />
             <v-switch      
               v-model="isSpaceConnector"
-              :aria-label="$t('externalVisio.tooltip.spaceModuleConnector', {0: isSpaceConnector ? 'Disable' : 'Enable'})"
+              :aria-label="this.$t(`externalVisio.tooltip.spaceModuleConnector.${this.switchSpaceAriaLabel}`)"
               class="mt-0 pt-0" />
           </v-card-text>
         </v-form>
@@ -127,6 +127,12 @@ export default {
   computed: {
     disabled() {
       return !(this.isValidInputs && this.externalVisioName);
+    },
+    switchUserAriaLabel() {
+      return this.isUserConnector && 'disable' || 'enable';
+    },
+    switchSpaceAriaLabel() {
+      return this.isSpaceConnector && 'disable' || 'enable';
     },
   },
   methods: {
