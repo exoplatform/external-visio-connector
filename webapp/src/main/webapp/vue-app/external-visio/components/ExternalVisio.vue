@@ -103,9 +103,11 @@ export default {
     externalVisioConnectors: [],
     itemsPerPage: 10,
     hideFooter: false,
+    enabled: true,
   }),
   created() {
     this.$root.$on('refresh-external-visio-connectors', this.getExternalVisioConnectors);
+    this.$root.$on('search-external-visio-connectors', this.getExternalVisioConnectors);
     this.getExternalVisioConnectors();
     this.headers = [
       { text: this.$t('externalVisio.settings.name'), align: 'left' },
@@ -114,8 +116,9 @@ export default {
     ];
   },
   methods: {
-    getExternalVisioConnectors() {
-      this.$externalVisioConnectorService.getExternalVisioConnectors()
+    getExternalVisioConnectors(filter) {
+      this.enabled = filter && (filter === 'ENABLED' ? 'true':'false') || this.enabled;
+      this.$externalVisioConnectorService.getExternalVisioConnectors(this.enabled)
         .then((connectors) => {
           this.externalVisioConnectors = connectors ;
         });

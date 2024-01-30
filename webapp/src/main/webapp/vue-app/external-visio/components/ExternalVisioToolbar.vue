@@ -49,5 +49,10 @@ export default {
   data: () => ({
     filter: 'ENABLED',
   }),
+  watch: {
+    filter() {
+      this.$root.$emit('search-external-visio-connectors', this.filter);
+    },
+  }
 };
 </script>
