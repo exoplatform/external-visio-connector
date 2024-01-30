@@ -18,6 +18,7 @@ package org.exoplatform.webconferencing.externalvisio.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -77,6 +78,7 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error"), })
   public Response getExternalVisioConnectors(@Parameter(description = "filter ExternalVisioConnector by status", required = true)
+  @Schema(defaultValue = "true")
   @QueryParam("enabled")
   Boolean enabled) {
     try {
