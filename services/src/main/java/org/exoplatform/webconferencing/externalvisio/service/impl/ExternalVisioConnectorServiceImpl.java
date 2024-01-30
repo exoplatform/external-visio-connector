@@ -40,8 +40,8 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
   }
 
   @Override
-  public List<ExternalVisioConnector> getExternalVisioConnectors() {
-    List<ExternalVisioConnectorEntity> visioConnectorEntityList = externalVisioConnectorDAO.getExternalVisioConnectors();
+  public List<ExternalVisioConnector> getExternalVisioConnectors(boolean enabled) {
+    List<ExternalVisioConnectorEntity> visioConnectorEntityList = externalVisioConnectorDAO.getExternalVisioConnectors(enabled);
     return visioConnectorEntityList.stream().map(EntityBuilder::fromEntity).toList();
   }
 }

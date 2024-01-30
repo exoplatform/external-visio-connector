@@ -21,14 +21,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.exoplatform.commons.api.persistence.ExoEntity;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "ExternalVisioConnector")
 @ExoEntity
 @Table(name = "EXTERNAL_VISIO_CONNECTOR")
-@NamedQuery(name = "ExternalVisioConnector.getExternalVisioConnectors", query = "SELECT connector FROM ExternalVisioConnector connector ORDER BY connector.name ASC")
+@NamedQuery(name = "ExternalVisioConnector.getExternalVisioConnectors", query = "SELECT connector FROM ExternalVisioConnector connector WHERE connector.enabled = :enabled  ORDER BY connector.name ASC")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -50,5 +49,8 @@ public class ExternalVisioConnectorEntity implements Serializable {
 
   @Column(name = "ACTIVE_FOR_SPACES")
   private boolean           activeForSpaces;
+
+  @Column(name = "ENABLED")
+  private boolean           enabled;
 
 }
