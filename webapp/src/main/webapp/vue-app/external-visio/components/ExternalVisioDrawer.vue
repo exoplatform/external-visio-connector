@@ -141,6 +141,8 @@ export default {
     },
     close() {
       this.externalVisioName = null;
+      this.isUserConnector= true;
+      this.isSpaceConnector= true;
       this.$refs.externalVisioConnectorAddDrawer.close();
     },
     saveExternalVisioConnector() {

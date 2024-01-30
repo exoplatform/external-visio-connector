@@ -2,7 +2,8 @@ export function saveExternalVisioConnector(externalVisioName, isUserConnector, i
   const externalVisioConnector = {
     name: externalVisioName,
     activeForUsers: isUserConnector,
-    activeForSpaces: isSpaceConnector
+    activeForSpaces: isSpaceConnector,
+    enabled: isUserConnector || isSpaceConnector
   };
   return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio`, {
     method: 'POST',
@@ -18,8 +19,8 @@ export function saveExternalVisioConnector(externalVisioName, isUserConnector, i
   });
 }
 
-export function getExternalVisioConnectors() {
-  return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio/connectors`, {
+export function getExternalVisioConnectors(enabled) {
+  return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio/connectors?enabled=${enabled}`, {
     credentials: 'include',
     method: 'GET'
   }).then(resp => {

@@ -25,5 +25,5 @@ public interface ExternalVisioConnectorService {
 
   ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity);
 
-  List<ExternalVisioConnector> getExternalVisioConnectors();
+  List<ExternalVisioConnector> getExternalVisioConnectors(boolean enabled);
 }

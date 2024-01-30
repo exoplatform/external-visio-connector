@@ -48,4 +48,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             <append value=" ENGINE=INNODB CHARSET=UTF8 COLLATE utf8_general_ci"/>
         </modifySql>
     </changeSet>
+    <changeSet author="externalVisioConnector" id="1.0.0-1">
+        <addColumn tableName="EXTERNAL_VISIO_CONNECTOR">
+            <column name="ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
