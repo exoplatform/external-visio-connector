@@ -55,4 +55,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             </column>
         </addColumn>
     </changeSet>
+    <changeSet author="externalVisioConnector" id="1.0.0-2">
+        <addColumn tableName="EXTERNAL_VISIO_CONNECTOR">
+            <column name="VISIO_ORDER" type="INT" defaultValueNumeric="0" />
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

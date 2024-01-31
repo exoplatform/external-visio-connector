@@ -18,6 +18,7 @@ package org.exoplatform.webconferencing.externalvisio.service;
 
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
+import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnectors;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface ExternalVisioConnectorService {
   ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity);
 
   List<ExternalVisioConnector> getExternalVisioConnectors(boolean enabled);
+
+  void saveExternalVisioConnectors(ExternalVisioConnectors externalVisioConnectors);
 }
