@@ -27,7 +27,7 @@ import java.io.Serializable;
 @Entity(name = "ExternalVisioConnector")
 @ExoEntity
 @Table(name = "EXTERNAL_VISIO_CONNECTOR")
-@NamedQuery(name = "ExternalVisioConnector.getExternalVisioConnectors", query = "SELECT connector FROM ExternalVisioConnector connector WHERE connector.enabled = :enabled  ORDER BY connector.name ASC")
+@NamedQuery(name = "ExternalVisioConnector.getExternalVisioConnectors", query = "SELECT connector FROM ExternalVisioConnector connector WHERE connector.enabled = :enabled  ORDER BY connector.order ASC")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -52,5 +52,8 @@ public class ExternalVisioConnectorEntity implements Serializable {
 
   @Column(name = "ENABLED")
   private boolean           enabled;
+
+  @Column(name = "VISIO_ORDER")
+  private int               order;
 
 }

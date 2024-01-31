@@ -44,10 +44,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
                 <template #activator="{ on, attrs }">
                   <v-btn 
                     v-if="displayArrowUp(props.item)"
-                    icon
-                    small
                     v-bind="attrs"
                     v-on="on"
+                    :aria-label="$t('externalVisio.settings.moveup')"
+                    icon
+                    small
                     @click="moveUp(props.item)">
                     <v-icon
                       size="18"
@@ -62,10 +63,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
                 <template #activator="{ on, attrs }">
                   <v-btn 
                     v-if="displayArrowDown(props.item)"
-                    icon
-                    small
                     v-bind="attrs"
                     v-on="on"
+                    :aria-label="$t('externalVisio.settings.movedown')"
+                    icon
+                    small
                     @click="moveDown(props.item)">
                     <v-icon
                       size="18"
@@ -106,12 +108,12 @@ export default {
     enabled: true,
   }),
   created() {
-    this.$root.$on('refresh-external-visio-connectors', this.getExternalVisioConnectors);
+    this.$root.$on('add-external-visio-connector', this.createExternalVisioConnector);
     this.$root.$on('search-external-visio-connectors', this.getExternalVisioConnectors);
     this.getExternalVisioConnectors();
     this.headers = [
       { text: this.$t('externalVisio.settings.name'), align: 'left' },
-      { text: this.$t('externalVisio.settings.order'), align: 'right' , width: '60px'},
+      { text: this.$t('externalVisio.settings.order'), align: 'center' , width: '60px'},
       { text: this.$t('externalVisio.settings.edit'), align: 'center' , width: '60px'}
     ];
   },
@@ -131,14 +133,44 @@ export default {
     },
     moveUp(item) {
       const index = this.externalVisioConnectors.indexOf(item);
-      this.$set(this.externalVisioConnectors, index , this.externalVisioConnectors[index-1]);
-      this.$set(this.externalVisioConnectors, index-1, item);
+      const tempOrder = item.order;
+      this.$set(this.externalVisioConnectors, index, {
+        ...this.externalVisioConnectors[index - 1],
+        order: tempOrder
+      });
+      this.$set(this.externalVisioConnectors, index - 1, {
+        ...item,
+        order: tempOrder - 1
+      });
+      this.saveConnectorOrders();
     },
     moveDown(item) {
       const index = this.externalVisioConnectors.indexOf(item);
-      this.$set(this.externalVisioConnectors, index, this.externalVisioConnectors[index+1]);
-      this.$set(this.externalVisioConnectors, index + 1, item);
+      const tempOrder = item.order;
+      this.$set(this.externalVisioConnectors, index, {
+        ...this.externalVisioConnectors[index + 1],
+        order: tempOrder
+      });
+      this.$set(this.externalVisioConnectors, index + 1, {
+        ...item,
+        order: tempOrder + 1
+      });
+      this.saveConnectorOrders();
     },
+    createExternalVisioConnector(externalConnector) {
+      externalConnector.order = this.externalVisioConnectors.length;
+      this.$externalVisioConnectorService.saveExternalVisioConnector(externalConnector)
+        .then(() => {
+          this.getExternalVisioConnectors();
+        });
+    },
+    saveConnectorOrders() {
+      const visioConnectors = {
+        enabled: this.enabled,
+        visioConnectors: this.externalVisioConnectors
+      };
+      this.$externalVisioConnectorService.saveConnectorOrders(visioConnectors);
+    }
   }
 };
 
