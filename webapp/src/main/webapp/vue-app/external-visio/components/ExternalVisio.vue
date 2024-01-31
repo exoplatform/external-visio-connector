@@ -87,7 +87,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
                 v-on="on"
                 :title="$t('externalVisio.settings.editConnector')"
                 primary
-                icon>
+                icon
+                @click="$root.$emit('open-external-visio-edit-drawer', props.item)">
                 <i class="uiIconEdit"></i>
               </v-btn>
             </div>
@@ -108,7 +109,7 @@ export default {
     enabled: true,
   }),
   created() {
-    this.$root.$on('add-external-visio-connector', this.createExternalVisioConnector);
+    this.$root.$on('save-external-visio-connector', this.saveExternalVisioConnector);
     this.$root.$on('search-external-visio-connectors', this.getExternalVisioConnectors);
     this.getExternalVisioConnectors();
     this.headers = [
@@ -157,12 +158,18 @@ export default {
       });
       this.saveConnectorOrders();
     },
-    createExternalVisioConnector(externalConnector) {
-      externalConnector.order = this.externalVisioConnectors.length;
-      this.$externalVisioConnectorService.saveExternalVisioConnector(externalConnector)
-        .then(() => {
-          this.getExternalVisioConnectors();
-        });
+    saveExternalVisioConnector(externalConnector, editMode) {
+      if (!editMode) {
+        this.$externalVisioConnectorService.saveExternalVisioConnector(externalConnector)
+          .then(() => {
+            this.getExternalVisioConnectors();
+          });
+      } else {
+        this.$externalVisioConnectorService.updateExternalVisioConnector(externalConnector)
+          .then(() => {
+            this.getExternalVisioConnectors();
+          });
+      }
     },
     saveConnectorOrders() {
       const visioConnectors = {

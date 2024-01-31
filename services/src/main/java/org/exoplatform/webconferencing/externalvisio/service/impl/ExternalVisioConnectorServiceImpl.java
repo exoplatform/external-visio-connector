@@ -39,6 +39,10 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
 
   @Override
   public ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) {
+    if (externalVisioConnectorEntity == null) {
+      throw new IllegalArgumentException("externalVisioConnectorEntity is mandatory");
+    }
+
     return EntityBuilder.fromEntity(externalVisioConnectorDAO.create(externalVisioConnectorEntity));
 
   }
@@ -70,5 +74,21 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
                       .forEach(connector -> {
                         externalVisioConnectorDAO.update(EntityBuilder.toEntity(connector));
                       });
+  }
+
+  public ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException {
+    if (externalVisioConnectorEntity == null) {
+      throw new IllegalArgumentException("externalVisioConnectorEntity is mandatory");
+    }
+
+    ExternalVisioConnectorEntity oldExternalVisioConnectorEntity =
+                                                                 externalVisioConnectorDAO.find(externalVisioConnectorEntity.getId());
+    if (oldExternalVisioConnectorEntity == null) {
+      throw new ObjectNotFoundException("externalVisioConnector is not exist");
+    }
+    if (oldExternalVisioConnectorEntity.equals(externalVisioConnectorEntity)) {
+      throw new IllegalArgumentException("there are no changes to save");
+    }
+    return EntityBuilder.fromEntity(externalVisioConnectorDAO.update(externalVisioConnectorEntity));
   }
 }
