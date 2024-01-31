@@ -1,10 +1,5 @@
-export function saveExternalVisioConnector(externalVisioName, isUserConnector, isSpaceConnector) {
-  const externalVisioConnector = {
-    name: externalVisioName,
-    activeForUsers: isUserConnector,
-    activeForSpaces: isSpaceConnector,
-    enabled: isUserConnector || isSpaceConnector
-  };
+export function saveExternalVisioConnector(externalVisioConnector) {
+
   return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio`, {
     method: 'POST',
     credentials: 'include',
@@ -31,4 +26,21 @@ export function getExternalVisioConnectors(enabled) {
     }
   });
 }
-  
+
+export function saveConnectorOrders(visioConnectors) {
+
+  return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(visioConnectors),
+  }).then(resp => {
+    if (resp?.ok) {
+      return resp.json();
+    } else {
+      throw new Error('Error when saving external visio connectors');
+    }
+  });
+}

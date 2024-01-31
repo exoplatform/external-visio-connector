@@ -16,12 +16,16 @@
  */
 package org.exoplatform.webconferencing.externalvisio.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.exoplatform.commons.exception.ObjectNotFoundException;
 import org.exoplatform.webconferencing.externalvisio.dao.ExternalVisioConnectorDAO;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
+import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnectors;
 import org.exoplatform.webconferencing.externalvisio.rest.util.EntityBuilder;
 import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnectorService;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnectorService {
@@ -43,5 +47,28 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
   public List<ExternalVisioConnector> getExternalVisioConnectors(boolean enabled) {
     List<ExternalVisioConnectorEntity> visioConnectorEntityList = externalVisioConnectorDAO.getExternalVisioConnectors(enabled);
     return visioConnectorEntityList.stream().map(EntityBuilder::fromEntity).toList();
+  }
+
+  @Override
+  public void saveExternalVisioConnectors(ExternalVisioConnectors externalVisioConnectors) {
+    List<ExternalVisioConnector> existingVisioConnectors = getExternalVisioConnectors(externalVisioConnectors.isEnabled());
+    if (CollectionUtils.isEmpty(existingVisioConnectors)) {
+      existingVisioConnectors = Collections.emptyList();
+    }
+    List<ExternalVisioConnector> visioConnectorList = externalVisioConnectors.getVisioConnectors();
+
+    if (CollectionUtils.isEmpty(visioConnectorList)) {
+      visioConnectorList = Collections.emptyList();
+    }
+    processUpdatedExternalVisioConnectors(visioConnectorList, existingVisioConnectors);
+  }
+
+  private void processUpdatedExternalVisioConnectors(List<ExternalVisioConnector> visioConnectorList,
+                                                     List<ExternalVisioConnector> existingVisioConnectors) {
+    visioConnectorList.stream()
+                      .filter(l -> existingVisioConnectors.stream().anyMatch(l2 -> l.getId() == l2.getId()))
+                      .forEach(connector -> {
+                        externalVisioConnectorDAO.update(EntityBuilder.toEntity(connector));
+                      });
   }
 }

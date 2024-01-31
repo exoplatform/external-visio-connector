@@ -146,11 +146,14 @@ export default {
       this.$refs.externalVisioConnectorAddDrawer.close();
     },
     saveExternalVisioConnector() {
-      this.$externalVisioConnectorService.saveExternalVisioConnector(this.externalVisioName, this.isUserConnector, this.isSpaceConnector)
-        .then(() => {
-          this.$root.$emit('refresh-external-visio-connectors');
-          this.close();
-        });
+      const externalConnector = {
+        name: this.externalVisioName,
+        activeForUsers: this.isUserConnector,
+        activeForSpaces: this.isSpaceConnector,
+        enabled: this.isUserConnector || this.isSpaceConnector
+      };
+      this.$root.$emit('add-external-visio-connector', externalConnector);
+      this.close();
     }
   }
 };

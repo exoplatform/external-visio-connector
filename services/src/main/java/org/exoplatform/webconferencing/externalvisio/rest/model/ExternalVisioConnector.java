@@ -35,4 +35,6 @@ public class ExternalVisioConnector {
 
   private boolean enabled;
 
+  private int     order;
+
 }

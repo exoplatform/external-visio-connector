@@ -23,10 +23,12 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.exoplatform.commons.exception.ObjectNotFoundException;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
+import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnectors;
 import org.exoplatform.webconferencing.externalvisio.rest.util.EntityBuilder;
 import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnectorService;
 
@@ -86,6 +88,27 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
       return Response.ok(externalVisioConnectors).build();
     } catch (Exception e) {
       LOG.warn("Error retrieving list of external visio connectors", e);
+      return Response.serverError().entity(e.getMessage()).build();
+    }
+  }
+
+  @PUT
+  @RolesAllowed("administrators")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Operation(summary = "Saves a externalVisioConnectors", description = "Saves a externalVisioConnectors", method = "PUT")
+  @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+      @ApiResponse(responseCode = "500", description = "Internal server error"), })
+  public Response saveExternalVisioConnectors(@RequestBody(description = "ExternalVisioConnectors to create", required = true)
+  ExternalVisioConnectors externalVisioConnectors) {
+
+    if (externalVisioConnectors == null) {
+      return Response.status(Response.Status.BAD_REQUEST).entity("externalVisioConnectors object is mandatory").build();
+    }
+    try {
+      externalVisioConnectorService.saveExternalVisioConnectors(externalVisioConnectors);
+      return Response.ok().build();
+    } catch (Exception e) {
+      LOG.warn("Error saving list of external visio connectors", e);
       return Response.serverError().entity(e.getMessage()).build();
     }
   }
