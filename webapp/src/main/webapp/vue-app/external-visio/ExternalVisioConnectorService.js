@@ -44,3 +44,19 @@ export function saveConnectorOrders(visioConnectors) {
     }
   });
 }
+
+export function updateExternalVisioConnector(externalVisioConnector) {
+
+  return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio/${externalVisioConnector.id}`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(externalVisioConnector),
+  }).then((resp) => {
+    if (!resp || !resp.ok) {
+      throw new Error('Error updating ExternalVisioConnector');
+    }
+  });
+}

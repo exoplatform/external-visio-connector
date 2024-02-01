@@ -112,4 +112,33 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
       return Response.serverError().entity(e.getMessage()).build();
     }
   }
+
+  @PUT
+  @Path("{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @RolesAllowed("administrators")
+  @Operation(summary = "Updates an ExternalVisioConnector", description = "Updates an ExternalVisioConnector", method = "PUT")
+  @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+      @ApiResponse(responseCode = "400", description = "Invalid query input"),
+      @ApiResponse(responseCode = "500", description = "Internal server error"), })
+  public Response updateExternalVisioConnector(@Parameter(description = "External visio id", required = true)
+  @PathParam("id")
+  long externalVisioId, @RequestBody(description = "externalVisioConnector object to update", required = true)
+  ExternalVisioConnector externalVisioConnector) {
+    if (externalVisioConnector == null) {
+      return Response.status(Response.Status.BAD_REQUEST).entity("externalVisioConnector object is mandatory").build();
+    }
+    if (externalVisioId <= 0) {
+      return Response.status(Response.Status.BAD_REQUEST).entity("ExternalVisio technical identifier must be positive").build();
+    }
+    try {
+      ExternalVisioConnector updatedExternalVisioConnector =
+                                                           externalVisioConnectorService.updateExternalVisioConnector(EntityBuilder.toEntity(externalVisioConnector));
+      return Response.ok(updatedExternalVisioConnector).build();
+    } catch (Exception e) {
+      LOG.warn("Error updating an ExternalVisioConnector", e);
+      return Response.serverError().entity(e.getMessage()).build();
+    }
+  }
 }

@@ -32,7 +32,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             @click="close()">
             fas fa-arrow-left
           </v-icon>
-          <span> {{ $t('externalVisio.drawer.addConnector.title') }} </span>
+          <span> {{ title }} </span>
         </div>
       </template>
       <template slot="content">
@@ -119,10 +119,16 @@ export default {
       isUserConnector: true,
       isSpaceConnector: true,
       isValidInputs: true,
+      editMode: false,
+      connectorId: null
     };
   },
   created() {
     this.$root.$on('open-external-visio-add-drawer', this.open);
+    this.$root.$on('open-external-visio-edit-drawer', (connector) => {
+      this.editMode = true;
+      this.open(connector);
+    });
   },
   computed: {
     disabled() {
@@ -134,9 +140,18 @@ export default {
     switchSpaceAriaLabel() {
       return this.isSpaceConnector && 'disable' || 'enable';
     },
+    title() {
+      return this.editMode ? this.$t('externalVisio.drawer.editConnector.title') : this.$t('externalVisio.drawer.addConnector.title');
+    }
   },
   methods: {
-    open() {
+    open(connector) {
+      if (connector) {
+        this.connectorId = connector.id;
+        this.externalVisioName = connector.name;
+        this.isUserConnector = connector.activeForUsers;
+        this.isSpaceConnector = connector.activeForSpaces;
+      }
       this.$nextTick().then(() => this.$refs.externalVisioConnectorAddDrawer.open());
     },
     close() {
@@ -152,7 +167,10 @@ export default {
         activeForSpaces: this.isSpaceConnector,
         enabled: this.isUserConnector || this.isSpaceConnector
       };
-      this.$root.$emit('add-external-visio-connector', externalConnector);
+      if (this.editMode) {
+        externalConnector.id = this.connectorId;
+      }
+      this.$root.$emit('save-external-visio-connector', externalConnector, this.editMode);
       this.close();
     }
   }
