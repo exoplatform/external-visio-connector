@@ -40,44 +40,32 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
           </td>
           <td>
             <div class="pull-right">
-              <v-tooltip top>
-                <template #activator="{ on, attrs }">
-                  <v-btn 
-                    v-if="displayArrowUp(props.item)"
-                    v-bind="attrs"
-                    v-on="on"
-                    :aria-label="$t('externalVisio.settings.moveup')"
-                    icon
-                    small
-                    @click="moveUp(props.item)">
-                    <v-icon
-                      size="18"
-                      class="primary--text">
-                      {{ 'fa-arrow-up' }}
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ $t('externalVisio.settings.moveup') }}</span>
-              </v-tooltip>
-              <v-tooltip top>
-                <template #activator="{ on, attrs }">
-                  <v-btn 
-                    v-if="displayArrowDown(props.item)"
-                    v-bind="attrs"
-                    v-on="on"
-                    :aria-label="$t('externalVisio.settings.movedown')"
-                    icon
-                    small
-                    @click="moveDown(props.item)">
-                    <v-icon
-                      size="18"
-                      class="primary--text">
-                      {{ 'fa-arrow-down' }}
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ $t('externalVisio.settings.movedown') }}</span>
-              </v-tooltip>
+              <v-btn 
+                v-if="props.item.enabled && displayArrowUp(props.item)"
+                :title="$t('externalVisio.settings.moveup')"
+                :aria-label="$t('externalVisio.settings.moveup')"
+                icon
+                small
+                @click="moveUp(props.item)">
+                <v-icon
+                  size="18"
+                  class="primary--text">
+                  {{ 'fa-arrow-up' }}
+                </v-icon>
+              </v-btn>
+              <v-btn 
+                v-if="props.item.enabled && displayArrowDown(props.item)"
+                :title="$t('externalVisio.settings.movedown')"
+                :aria-label="$t('externalVisio.settings.movedown')"
+                icon
+                small
+                @click="moveDown(props.item)">
+                <v-icon
+                  size="18"
+                  class="primary--text">
+                  {{ 'fa-arrow-down' }}
+                </v-icon>
+              </v-btn>
             </div>
           </td>
           <td>
