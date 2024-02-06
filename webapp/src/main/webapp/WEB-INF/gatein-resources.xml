@@ -66,4 +66,28 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
     </depends>
   </module>
 
+  <module>
+    <name>VideoConferenceSpaceSettingExtension</name>
+    <load-group>SpaceSettingExtensions</load-group>
+    <script>
+      <minify>false</minify>
+      <path>/js/webConferencing.bundle.js</path>
+    </script>
+    <depends>
+      <module>vue</module>
+    </depends>
+    <depends>
+      <module>vuetify</module>
+    </depends>
+    <depends>
+      <module>eXoVueI18n</module>
+    </depends>
+    <depends>
+      <module>jquery</module>
+      <as>$</as>
+    </depends>
+    <depends>
+      <module>extensionRegistry</module>
+    </depends>
+  </module>
 </gatein-resources>
