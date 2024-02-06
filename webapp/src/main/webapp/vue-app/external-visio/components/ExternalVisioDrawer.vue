@@ -115,12 +115,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 export default {
   data () {
     return {
+      originalVisioConnector: null,
       externalVisioName: '',
       isUserConnector: true,
       isSpaceConnector: true,
       isValidInputs: true,
       editMode: false,
-      connectorId: null
+      connectorId: null,
+      connectorOrder: null
     };
   },
   created() {
@@ -132,7 +134,10 @@ export default {
   },
   computed: {
     disabled() {
-      return !(this.isValidInputs && this.externalVisioName);
+      return this.editMode && this.modified || !this.externalVisioName;
+    },
+    modified() {
+      return JSON.stringify(this.originalVisioConnector) === JSON.stringify({activeForUsers: this.isUserConnector, activeForSpaces: this.isSpaceConnector, name: this.externalVisioName});
     },
     switchUserAriaLabel() {
       return this.isUserConnector && 'disable' || 'enable';
@@ -151,6 +156,12 @@ export default {
         this.externalVisioName = connector.name;
         this.isUserConnector = connector.activeForUsers;
         this.isSpaceConnector = connector.activeForSpaces;
+        this.connectorOrder = connector.order;
+        this.originalVisioConnector = {
+          activeForUsers: this.isUserConnector, 
+          activeForSpaces: this.isSpaceConnector, 
+          name: this.externalVisioName
+        };
       }
       this.$nextTick().then(() => this.$refs.externalVisioConnectorAddDrawer.open());
     },
@@ -158,6 +169,7 @@ export default {
       this.externalVisioName = null;
       this.isUserConnector= true;
       this.isSpaceConnector= true;
+      this.originalVisioConnector= null;
       this.$refs.externalVisioConnectorAddDrawer.close();
     },
     saveExternalVisioConnector() {
@@ -169,6 +181,7 @@ export default {
       };
       if (this.editMode) {
         externalConnector.id = this.connectorId;
+        externalConnector.order = this.connectorOrder;
       }
       this.$root.$emit('save-external-visio-connector', externalConnector, this.editMode);
       this.close();
