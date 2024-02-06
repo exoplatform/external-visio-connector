@@ -77,7 +77,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
                 primary
                 icon
                 @click="$root.$emit('open-external-visio-edit-drawer', props.item)">
-                <i class="uiIconEdit"></i>
+                <i class="uiIconEdit pb-2"></i>
               </v-btn>
             </div>
           </td>
@@ -148,6 +148,7 @@ export default {
     },
     saveExternalVisioConnector(externalConnector, editMode) {
       if (!editMode) {
+        externalConnector.order = this.externalVisioConnectors.length;
         this.$externalVisioConnectorService.saveExternalVisioConnector(externalConnector)
           .then(() => {
             this.getExternalVisioConnectors();
