@@ -65,12 +65,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             </v-label>
           </v-card-text>
           <v-card-text class="d-flex flex-row">
-            <v-label>
-              <span class="text-color">
-                {{ $t('externalVisio.label.userModuleConnector.title') }}
-              </span>
-              <p class="caption">{{ $t('externalVisio.label.userModuleConnector.description') }}</p>
-            </v-label>
+            <div class="pt-1">
+              <v-label>
+                <span class="text-color">
+                  {{ $t('externalVisio.label.userModuleConnector.title') }}
+                </span>
+                <p class="caption">{{ $t('externalVisio.label.userModuleConnector.description') }}</p>
+              </v-label>
+            </div> 
             <v-spacer />
             <v-switch      
               v-model="isUserConnector"
@@ -78,12 +80,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
               class="mt-0 pt-0" />
           </v-card-text>
           <v-card-text class="d-flex flex-row">
-            <v-label>
-              <span class="text-color">
-                {{ $t('externalVisio.label.spaceModuleConnector.title') }}
-              </span>
-              <p class="caption">{{ $t('externalVisio.label.spaceModuleConnector.description') }}</p>
-            </v-label>
+            <div class="pt-1">
+              <v-label>
+                <span class="text-color">
+                  {{ $t('externalVisio.label.spaceModuleConnector.title') }}
+                </span>
+                <p class="caption">{{ $t('externalVisio.label.spaceModuleConnector.description') }}</p>
+              </v-label>
+            </div>
             <v-spacer />
             <v-switch      
               v-model="isSpaceConnector"
