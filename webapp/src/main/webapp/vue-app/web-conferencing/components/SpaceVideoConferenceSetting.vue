@@ -75,11 +75,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
         <v-btn 
           :title="$t('externalVisio.settings.editConnector')"
           primary
-          icon>
+          icon
+          @click="$root.$emit('open-video-conference-link-drawer', videoConference)">
           <i class="uiIconEdit"></i>
         </v-btn>
       </v-list-item-action>
     </v-list-item>
+    <video-conference-link-drawer />
   </v-card>
 </template>
 <script>
