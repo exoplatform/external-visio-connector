@@ -16,8 +16,12 @@
  */
 package org.exoplatform.webconferencing.externalvisio.rest.util;
 
+import org.exoplatform.commons.utils.CommonsUtils;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
+import org.exoplatform.webconferencing.externalvisio.entity.VideoConferenceEntity;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
+import org.exoplatform.webconferencing.externalvisio.rest.model.VideoConference;
+import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnectorService;
 
 public class EntityBuilder {
 
@@ -43,6 +47,31 @@ public class EntityBuilder {
                                             externalVisioConnector.isActiveForSpaces(),
                                             externalVisioConnector.isEnabled(),
                                             externalVisioConnector.getOrder());
+
+  }
+
+  public static VideoConference fromEntity(VideoConferenceEntity videoConferenceEntity) {
+    if (videoConferenceEntity == null) {
+      return null;
+    }
+    return new VideoConference(videoConferenceEntity.getId(),
+            videoConferenceEntity.getIdentity(),
+            videoConferenceEntity.getUrl(),
+            videoConferenceEntity.getExternalVisioConnector().getId(),
+            videoConferenceEntity.getExternalVisioConnector().getName());
+  }
+
+  public static VideoConferenceEntity toEntity(VideoConference videoConference) {
+    if (videoConference == null) {
+      return null;
+    }
+    ExternalVisioConnectorService externalVisioConnectorService = CommonsUtils.getService(ExternalVisioConnectorService.class);
+
+    ExternalVisioConnectorEntity externalVisioConnector = externalVisioConnectorService.getExternalVisioConnectorById(videoConference.getConnectorId());
+    return new VideoConferenceEntity(videoConference.getId(),
+            videoConference.getUrl(),
+            videoConference.getIdentity(),
+            externalVisioConnector);
 
   }
 

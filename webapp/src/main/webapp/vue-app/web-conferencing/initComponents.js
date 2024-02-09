@@ -25,10 +25,10 @@ for (const key in components) {
   Vue.component(key, components[key]);
 }
 
-import * as externalVisioConnectorService from '../external-visio/ExternalVisioConnectorService.js';
+import * as videoConferenceService from './VideoConferenceService.js';
 
-if (!Vue.prototype.$externalVisioConnectorService) {
-  window.Object.defineProperty(Vue.prototype, '$externalVisioConnectorService', {
-    value: externalVisioConnectorService,
+if (!Vue.prototype.$videoConferenceService) {
+  window.Object.defineProperty(Vue.prototype, '$videoConferenceService', {
+    value: videoConferenceService,
   });
 }

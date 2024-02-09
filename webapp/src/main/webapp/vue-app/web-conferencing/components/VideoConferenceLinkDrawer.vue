@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
       ref="videoConferenceLinkDrawer"
       right
       allow-expand
-      @expand-updated="expanded = $event"
       @closed="close">
       <template slot="title">
         <div class="d-flex">
@@ -32,26 +31,27 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             @click="close()">
             fas fa-arrow-left
           </v-icon>
-          <span> Zoom video conference </span>
+          <span>{{ $t('videoConference.drawer.title', {0: videoConferenceName}) }}</span>
         </div>
       </template>
       <template slot="content">
-        <v-form>
+        <v-form v-model="isValidForm">
           <v-card-text class="d-flex pb-2">
             <v-label>
               <span class="text-color font-weight-bold text-start text-truncate-2">
-                Link of the video conference              
+                {{ $t('videoConference.drawer.link.title') }}           
               </span>
-              <p class="caption">Paste the link provided by your video conference  </p>
+              <p class="caption">{{ $t('videoConference.drawer.link.title') }}</p>
             </v-label>
           </v-card-text>
           <v-card-text class="d-flex py-0">
             <v-text-field
               v-model="videoConferenceLink"
+              :placeholder="placeholder"
+              :rules="linkRules"
               class="pt-0"
               type="text"
-              required="required"
-              :placeholder="placeholder"
+              required
               outlined
               dense />
           </v-card-text>
@@ -66,8 +66,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
           </v-btn>
           <v-btn
             :disabled="disabled"
-            :loading="loading"
-            @click="saveExternalVisioConnector"
+            @click="saveVideoConference"
             class="btn btn-primary ms-2">
             {{ $t('externalVisio.label.btn.Save') }}
           </v-btn>
@@ -81,15 +80,51 @@ export default {
   data () {
     return {
       placeholder: 'Enter the URL of the video conference',
-      videoConferenceLink: ''
+      videoConference: null,
+      videoConferenceLink: '',
+      isValidForm: true,
+      linkRules: [url => !!(url?.match(/^((https?:\/\/)?(www\.)?[a-zA-Z0-9]+\.[^\s]{2,})|(javascript:)|(\/portal\/)/))
+              || ( !url?.length && this.$t('videoConference.required.error.message') || this.$t('videoConference.label.invalidLink'))],
     };
   },
   created() {
     this.$root.$on('open-video-conference-link-drawer', this.open);
   },
+  computed: {
+    disabled() { 
+      return !this.videoConferenceLink || !this.isValidForm;
+    },
+    videoConferenceName() {
+      return this.videoConference && this.videoConference.connectorName;
+    }
+  },
   methods: {
-    open() {
+    open(videoConference) {
+      this.videoConference = videoConference;
+      this.videoConferenceLink = videoConference.url;
       this.$nextTick().then(() => this.$refs.videoConferenceLinkDrawer.open());
+    },
+    close() {
+      this.isValidForm = true;
+      this.videoConferenceLink = '';
+      this.videoConference = null;
+      this.$nextTick().then(() => this.$refs.videoConferenceLinkDrawer.close());
+    },
+    saveVideoConference() {
+      const videoConference = {
+        identity: eXo.env.portal.spaceId,
+        url: this.videoConferenceLink,
+        connectorId: this.videoConference.connectorId,
+        connectorName: this.videoConference.connectorName
+      }; 
+      if (this.videoConference.id) {
+        videoConference.id = this.videoConference.id;
+      }
+      this.$videoConferenceService.saveVideoConference(videoConference).then(() => {
+        this.$root.$emit('alert-message', this.$t('videoConference.label.saveLink.success'), 'success');
+        this.$root.$emit('refresh-video-conferences');
+        this.close();
+      });
     }
   }
 };

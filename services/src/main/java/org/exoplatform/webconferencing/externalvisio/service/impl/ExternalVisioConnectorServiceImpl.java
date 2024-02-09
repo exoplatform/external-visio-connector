@@ -91,4 +91,9 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
     }
     return EntityBuilder.fromEntity(externalVisioConnectorDAO.update(externalVisioConnectorEntity));
   }
+
+  @Override
+  public ExternalVisioConnectorEntity getExternalVisioConnectorById(long id) {
+    return externalVisioConnectorDAO.find(id);
+  }
 }

@@ -65,10 +65,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
       :key="videoConference">
       <v-list-item-content>
         <v-list-item-title class="subtitle-1">
-          {{ videoConference.name }}
+          {{ videoConference.connectorName }}
         </v-list-item-title>
-        <v-list-item-subtitle>
-          {{ $t('videoConference.space.settings.externalVisio.descrition') }}
+        <v-list-item-subtitle v-if="videoConference.url">
+          {{ $t('videoConference.space.settings.link.descrition', {0: videoConference.url}) }} 
+        </v-list-item-subtitle>
+        <v-list-item-subtitle v-else>
+          {{ $t('videoConference.space.settings.descrition') }} 
         </v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-action class="pt-0 ma-0 mb-6">
@@ -88,9 +91,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 export default {
   data: () =>({
     videoConferences: [],
-    active: true
+    active: true,
+    spaceId: eXo.env.portal.spaceId,
   }),
   created() {
+    this.$root.$on('refresh-video-conferences', this.getVideoConferences);
     this.getVideoConferences();
   },
   computed: {
@@ -100,9 +105,9 @@ export default {
   },
   methods: {
     getVideoConferences() {
-      this.$externalVisioConnectorService.getExternalVisioConnectors(true)
+      this.$videoConferenceService.getVideoConferences(this.spaceId)
         .then((videoConferences) => {
-          this.videoConferences = videoConferences.filter(video => video.activeForSpaces) ;
+          this.videoConferences = videoConferences;
         });
     },
   }

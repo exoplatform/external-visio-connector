@@ -28,6 +28,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
     <type>org.exoplatform.webconferencing.externalvisio.service.impl.ExternalVisioConnectorServiceImpl</type>
   </component>
 
+
+  <component>
+    <type>org.exoplatform.webconferencing.externalvisio.dao.VideoConferenceDAO</type>
+  </component>
+  <component>
+    <type>org.exoplatform.webconferencing.externalvisio.rest.VideoConferenceRest</type>
+  </component>
+  <component>
+    <key>org.exoplatform.webconferencing.externalvisio.service.VideoConferenceService</key>
+    <type>org.exoplatform.webconferencing.externalvisio.service.impl.VideoConferenceServiceImpl</type>
+  </component>
+
   <external-component-plugins>
     <target-component>org.exoplatform.commons.api.persistence.DataInitializer</target-component>
     <component-plugin>
