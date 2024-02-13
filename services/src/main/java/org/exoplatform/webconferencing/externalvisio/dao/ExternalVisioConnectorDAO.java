@@ -38,4 +38,16 @@ public class ExternalVisioConnectorDAO extends GenericDAOJPAImpl<ExternalVisioCo
       return Collections.emptyList();
     }
   }
+
+  public List<ExternalVisioConnectorEntity> getActiveExternalVisioConnectorsForSpace() {
+    TypedQuery<ExternalVisioConnectorEntity> query =
+            getEntityManager().createNamedQuery("ExternalVisioConnector.getActiveExternalVisioConnectorsForSpaces",
+                    ExternalVisioConnectorEntity.class);
+    try {
+      return query.getResultList();
+    } catch (NoResultException e) {
+      return Collections.emptyList();
+    }
+
+  }
 }
