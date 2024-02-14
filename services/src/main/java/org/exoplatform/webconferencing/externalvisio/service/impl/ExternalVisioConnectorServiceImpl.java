@@ -91,4 +91,10 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
     }
     return EntityBuilder.fromEntity(externalVisioConnectorDAO.update(externalVisioConnectorEntity));
   }
+
+  @Override
+  public List<ExternalVisioConnector> getActiveExternalVisioConnectorsForSpace() {
+    List<ExternalVisioConnectorEntity> activeVisioConnectorEntityList = externalVisioConnectorDAO.getActiveExternalVisioConnectorsForSpace();
+    return activeVisioConnectorEntityList.stream().map(EntityBuilder::fromEntity).toList();
+  }
 }
