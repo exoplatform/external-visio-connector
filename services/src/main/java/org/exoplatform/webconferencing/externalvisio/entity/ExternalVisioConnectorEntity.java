@@ -28,6 +28,7 @@ import java.io.Serializable;
 @ExoEntity
 @Table(name = "EXTERNAL_VISIO_CONNECTOR")
 @NamedQuery(name = "ExternalVisioConnector.getExternalVisioConnectors", query = "SELECT connector FROM ExternalVisioConnector connector WHERE connector.enabled = :enabled  ORDER BY connector.order ASC")
+@NamedQuery(name = "ExternalVisioConnector.getActiveExternalVisioConnectorsForSpaces", query = "SELECT connector FROM ExternalVisioConnector connector WHERE connector.activeForSpaces = true  ORDER BY connector.order ASC")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
