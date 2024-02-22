@@ -81,7 +81,7 @@ public class ExternalVisioProvider extends CallProvider {
     List<ExternalVisioConnector> externalVisioConnectors = externalVisioConnectorService.getActiveExternalVisioConnectorsForSpace();
 
     return externalVisioConnectors.stream().map(externalVisioConnector -> {
-      return new ActiveCallProvider(externalVisioConnector.getName(), null, false);
+      return new ActiveCallProvider(externalVisioConnector.getId().toString(), externalVisioConnector.getName(), null, false);
     }).toList();
   }
 }
