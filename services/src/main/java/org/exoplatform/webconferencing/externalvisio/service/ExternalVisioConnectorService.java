@@ -16,6 +16,7 @@
  */
 package org.exoplatform.webconferencing.externalvisio.service;
 
+import org.exoplatform.commons.ObjectAlreadyExistsException;
 import org.exoplatform.commons.exception.ObjectNotFoundException;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
@@ -25,13 +26,13 @@ import java.util.List;
 
 public interface ExternalVisioConnectorService {
 
-  ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity);
+  ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectAlreadyExistsException;
 
   List<ExternalVisioConnector> getExternalVisioConnectors(boolean enabled);
 
   void saveExternalVisioConnectors(ExternalVisioConnectors externalVisioConnectors);
   
-  ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException;
+  ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException, ObjectAlreadyExistsException;
 
   List<ExternalVisioConnector> getActiveExternalVisioConnectorsForSpace();
 }
