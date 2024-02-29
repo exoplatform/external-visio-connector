@@ -19,10 +19,13 @@ package org.exoplatform.webconferencing.externalvisio.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.exoplatform.commons.ObjectAlreadyExistsException;
 import org.exoplatform.commons.exception.ObjectNotFoundException;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.social.core.profileproperty.ProfilePropertyService;
 import org.exoplatform.social.core.profileproperty.model.ProfilePropertySetting;
 import org.exoplatform.webconferencing.externalvisio.dao.ExternalVisioConnectorDAO;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
+import org.exoplatform.webconferencing.externalvisio.rest.ExternalVisioConnectorRest;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnectors;
 import org.exoplatform.webconferencing.externalvisio.rest.util.EntityBuilder;
@@ -32,6 +35,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnectorService {
+
+  private static final Log LOG = ExoLogger.getLogger(ExternalVisioConnectorServiceImpl.class);
 
   private final ExternalVisioConnectorDAO externalVisioConnectorDAO;
   
@@ -45,7 +50,7 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
   }
 
   @Override
-  public ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectAlreadyExistsException {
+  public ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) {
     if (externalVisioConnectorEntity == null) {
       throw new IllegalArgumentException("externalVisioConnectorEntity is mandatory");
     }
@@ -85,8 +90,7 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
                       });
   }
 
-  public ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException,
-                                                                                                                        ObjectAlreadyExistsException {
+  public ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException {
     if (externalVisioConnectorEntity == null) {
       throw new IllegalArgumentException("externalVisioConnectorEntity is mandatory");
     }
@@ -118,7 +122,7 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
     return activeVisioConnectorEntityList.stream().map(EntityBuilder::fromEntity).toList();
   }
 
-  public void createPropertySetting(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectAlreadyExistsException {
+  public void createPropertySetting(ExternalVisioConnectorEntity externalVisioConnectorEntity) {
     ProfilePropertySetting profilePropertySetting = new ProfilePropertySetting();
     profilePropertySetting.setActive(true);
     profilePropertySetting.setEditable(true);
@@ -127,6 +131,11 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
     profilePropertySetting.setGroupSynchronized(false);
     profilePropertySetting.setRequired(false);
     profilePropertySetting.setMultiValued(false);
-    profilePropertyService.createPropertySetting(profilePropertySetting);
+
+    try {
+      profilePropertyService.createPropertySetting(profilePropertySetting);
+    } catch (ObjectAlreadyExistsException e) {
+      LOG.warn("Profile property " + profilePropertySetting.getPropertyName() + " already exists");
+    }
   }
 }

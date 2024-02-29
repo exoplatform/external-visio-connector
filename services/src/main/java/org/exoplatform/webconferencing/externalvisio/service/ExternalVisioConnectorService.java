@@ -26,13 +26,13 @@ import java.util.List;
 
 public interface ExternalVisioConnectorService {
 
-  ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectAlreadyExistsException;
+  ExternalVisioConnector createExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity);
 
   List<ExternalVisioConnector> getExternalVisioConnectors(boolean enabled);
 
   void saveExternalVisioConnectors(ExternalVisioConnectors externalVisioConnectors);
-  
-  ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException, ObjectAlreadyExistsException;
+
+  ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException;
 
   List<ExternalVisioConnector> getActiveExternalVisioConnectorsForSpace();
 }
