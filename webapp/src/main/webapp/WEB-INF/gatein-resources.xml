@@ -37,4 +37,33 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
     </depends>
   </module>
 
+  <module>
+    <name>webConferencing_externalvisio</name>
+    <load-group>webConferencingExternalVisioGRP</load-group>
+    <script>
+      <path>/js/webconferencing-externalvisio.js</path>
+    </script>
+    <depends>
+      <module>jquery</module>
+    </depends>
+    <depends>
+      <module>webConferencing</module>
+    </depends>
+  </module>
+
+  <module>
+    <name>externalVisioConnector</name>
+    <load-group>webConferencingGRP</load-group>
+    <script>
+      <minify>false</minify>
+      <path>/js/externalVisioConnector.bundle.js</path>
+    </script>
+    <depends>
+      <module>webConferencing</module>
+    </depends>
+    <depends>
+      <module>webConferencing_externalvisio</module>
+    </depends>
+  </module>
+
 </gatein-resources>

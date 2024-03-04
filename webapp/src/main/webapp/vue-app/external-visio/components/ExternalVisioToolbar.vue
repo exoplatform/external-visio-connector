@@ -18,7 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
   <v-flex id="externalVisioToolbar" class="d-flex flex-row">
     <v-flex class="d-flex flex-grow-0 pt-2">
       <v-btn
-        class="btn btn-primary">
+        class="btn btn-primary"
+        @click="$root.$emit('open-external-visio-add-drawer')">
         <span class="d-none d-sm-inline">
           {{ $t('externalVisio.button.addConnector') }}
         </span>
@@ -29,6 +30,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
       <v-scale-transition>
         <select
           v-model="filter"
+          :aria-label="$t('externalVisio.filter.label')"
           class="width-auto my-auto me-2 pe-2 subtitle-1 ignore-vuetify-classes d-none d-sm-inline">
           <option value="ENABLED">
             {{ $t('externalVisio.status.enabled') }}
@@ -47,5 +49,10 @@ export default {
   data: () => ({
     filter: 'ENABLED',
   }),
+  watch: {
+    filter() {
+      this.$root.$emit('search-external-visio-connectors', this.filter);
+    },
+  }
 };
 </script>

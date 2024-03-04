@@ -14,14 +14,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import ExternalVisio from './components/ExternalVisio.vue';
-import ExternalVisioToolbar from './components/ExternalVisioToolbar.vue';
+package org.exoplatform.webconferencing.externalvisio.rest.model;
 
-const components = {
-  'external-visio': ExternalVisio,
-  'external-visio-toolbar': ExternalVisioToolbar
-};
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-for (const key in components) {
-  Vue.component(key, components[key]);
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class ExternalVisioConnector {
+
+  private Long    id;
+
+  private String  name;
+
+  private boolean activeForUsers;
+
+  private boolean activeForSpaces;
+
+  private boolean enabled;
+
+  private int     order;
+
 }

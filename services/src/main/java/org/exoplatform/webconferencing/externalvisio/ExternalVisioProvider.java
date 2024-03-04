@@ -16,10 +16,15 @@
  */
 package org.exoplatform.webconferencing.externalvisio;
 
+import org.exoplatform.webconferencing.ActiveCallProvider;
 import org.exoplatform.webconferencing.CallProvider;
 import org.exoplatform.webconferencing.CallProviderException;
 import org.exoplatform.webconferencing.UserInfo;
 import org.exoplatform.container.configuration.ConfigurationException;
+import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
+import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnectorService;
+
+import java.util.List;
 
 public class ExternalVisioProvider extends CallProvider {
 
@@ -33,14 +38,17 @@ public class ExternalVisioProvider extends CallProvider {
    */
   public static final String EXTERNAL_VISIO_TITLE = "ExternalVisio";
 
+  private ExternalVisioConnectorService externalVisioConnectorService;
+
   /**
    * Instantiates a new web conferencing provider.
    *
    * @param params the params
    * @throws ConfigurationException the configuration exception
    */
-  public ExternalVisioProvider(org.exoplatform.container.xml.InitParams params) throws ConfigurationException {
+  public ExternalVisioProvider(org.exoplatform.container.xml.InitParams params, ExternalVisioConnectorService externalVisioConnectorService) throws ConfigurationException {
     super(params);
+    this.externalVisioConnectorService = externalVisioConnectorService;
   }
 
   @Override
@@ -66,5 +74,14 @@ public class ExternalVisioProvider extends CallProvider {
   @Override
   public UserInfo.IMInfo getIMInfo(String imId) throws CallProviderException {
     return null;
+  }
+
+  @Override
+  public List<ActiveCallProvider> getActiveProvidersForSpace(String spaceId) {
+    List<ExternalVisioConnector> externalVisioConnectors = externalVisioConnectorService.getActiveExternalVisioConnectorsForSpace();
+
+    return externalVisioConnectors.stream().map(externalVisioConnector -> {
+      return new ActiveCallProvider(externalVisioConnector.getId().toString(), externalVisioConnector.getName(), null, false);
+    }).toList();
   }
 }

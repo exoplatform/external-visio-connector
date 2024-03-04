@@ -34,7 +34,8 @@ const config = {
     new VueLoaderPlugin()
   ],
   entry: {
-    externalVisio: './src/main/webapp/vue-apps/external-visio/main.js',
+    externalVisio: './src/main/webapp/vue-app/external-visio/main.js',
+    externalVisioConnector: './src/main/webapp/vue-app/external-visio-connector/main.js',
   },
   output: {
     path: path.join(__dirname, 'target/external-visio/'),
