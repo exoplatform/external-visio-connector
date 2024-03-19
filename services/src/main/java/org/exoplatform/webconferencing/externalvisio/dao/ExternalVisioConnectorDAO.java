@@ -50,4 +50,15 @@ public class ExternalVisioConnectorDAO extends GenericDAOJPAImpl<ExternalVisioCo
     }
 
   }
+
+  public List<ExternalVisioConnectorEntity> getActiveExternalVisioConnectorsForUser() {
+    TypedQuery<ExternalVisioConnectorEntity> query =
+                                                   getEntityManager().createNamedQuery("ExternalVisioConnector.getActiveExternalVisioConnectorsForUsers",
+                                                                                       ExternalVisioConnectorEntity.class);
+    try {
+      return query.getResultList();
+    } catch (NoResultException e) {
+      return Collections.emptyList();
+    }
+  }
 }
