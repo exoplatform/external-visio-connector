@@ -173,7 +173,6 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
     Identity identity = null;
     if (space != null) {
       identity = identityManager.getOrCreateSpaceIdentity(identityId);
-      identityId = space.getId();
       if (!spaceService.isMember(space, authenticatedUser) && !spaceService.isSuperManager(authenticatedUser)) {
         return Response.status(Response.Status.UNAUTHORIZED).build();
       }
@@ -182,8 +181,7 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
     }
     try {
       List<ExternalVisioConnector> externalVisioConnectors =
-                                                           externalVisioConnectorService.getConfiguredExternalVisioConnectors(identityId,
-                                                                                                                              identity);
+                                                           externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity, space.getId());
       return Response.ok(externalVisioConnectors).build();
     } catch (Exception e) {
       LOG.warn("Error retrieving list of configured external visio connectors", e);

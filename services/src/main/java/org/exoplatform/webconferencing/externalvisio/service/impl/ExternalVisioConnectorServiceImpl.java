@@ -126,34 +126,31 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
 
   @Override
   public List<ExternalVisioConnector> getActiveExternalVisioConnectorsForSpace() {
-    List<ExternalVisioConnectorEntity> activeVisioConnectorEntityList = externalVisioConnectorDAO.getActiveExternalVisioConnectorsForSpace();
+    List<ExternalVisioConnectorEntity> activeVisioConnectorEntityList = externalVisioConnectorDAO.getActiveExternalVisioConnectors(true);
     return activeVisioConnectorEntityList.stream().map(EntityBuilder::fromEntity).toList();
   }
 
   @Override
   public List<ExternalVisioConnector> getActiveExternalVisioConnectorsForUser() {
-    List<ExternalVisioConnectorEntity> activeVisioConnectorEntityList = externalVisioConnectorDAO.getActiveExternalVisioConnectorsForUser();
+    List<ExternalVisioConnectorEntity> activeVisioConnectorEntityList = externalVisioConnectorDAO.getActiveExternalVisioConnectors(false);
     return activeVisioConnectorEntityList.stream().map(EntityBuilder::fromEntity).toList();
   }
 
   @Override
-  public List<ExternalVisioConnector> getConfiguredExternalVisioConnectors(String identityId, Identity identity) {
-    List<ExternalVisioConnector> externalVisioConnectors =
-                                                         identity.isSpace() ? getActiveExternalVisioConnectorsForSpace()
-                                                                            : identity.isUser() ? getActiveExternalVisioConnectorsForUser()
-                                                                                                : new ArrayList<>();
+  public List<ExternalVisioConnector> getConfiguredExternalVisioConnectors(Identity identity, String spaceId) {
+    List<ExternalVisioConnectorEntity> externalVisioConnectors = identity.isSpace()
+        || identity.isUser() ? externalVisioConnectorDAO.getActiveExternalVisioConnectors(identity.isSpace()) : new ArrayList<>();
     return externalVisioConnectors.stream()
-                                  .map(p -> getExternalVisioConnectorsUrl(identity, identityId, p))
+                                  .map(EntityBuilder::fromEntity)
+                                  .map(p -> getExternalVisioConnectorsUrl(identity, spaceId, p))
                                   .filter(p -> p.getUrl() != null)
                                   .toList();
   }
 
-  public ExternalVisioConnector getExternalVisioConnectorsUrl(Identity identity,
-                                                              String identityId,
-                                                              ExternalVisioConnector externalVisioConnector) {
+  public ExternalVisioConnector getExternalVisioConnectorsUrl(Identity identity, String spaceId, ExternalVisioConnector externalVisioConnector) {
     if (identity.isSpace()) {
       SettingValue<?> settingValue = settingService.get(Context.GLOBAL,
-                                                        Scope.SPACE.id(identityId),
+                                                        Scope.SPACE.id(spaceId),
                                                         String.valueOf(externalVisioConnector.getId()));
       if (settingValue != null) {
         externalVisioConnector.setUrl(String.valueOf(settingValue.getValue()));
