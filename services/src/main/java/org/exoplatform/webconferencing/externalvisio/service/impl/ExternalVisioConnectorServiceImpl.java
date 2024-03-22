@@ -28,6 +28,8 @@ import org.exoplatform.services.log.Log;
 import org.exoplatform.social.core.identity.model.Identity;
 import org.exoplatform.social.core.profileproperty.ProfilePropertyService;
 import org.exoplatform.social.core.profileproperty.model.ProfilePropertySetting;
+import org.exoplatform.social.core.space.model.Space;
+import org.exoplatform.social.core.space.spi.SpaceService;
 import org.exoplatform.webconferencing.externalvisio.dao.ExternalVisioConnectorDAO;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
@@ -48,13 +50,17 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
   private final ProfilePropertyService profilePropertyService;
   
   private final SettingService            settingService;
+  
+  private final SpaceService              spaceService;
 
   public ExternalVisioConnectorServiceImpl(ExternalVisioConnectorDAO externalVisioConnectorDAO,
                                            ProfilePropertyService profilePropertyService,
-                                           SettingService settingService) {
+                                           SettingService settingService,
+                                           SpaceService spaceService) {
     this.externalVisioConnectorDAO = externalVisioConnectorDAO;
     this.profilePropertyService = profilePropertyService;
     this.settingService = settingService;
+    this.spaceService = spaceService;
   }
 
   @Override
@@ -137,28 +143,29 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
   }
 
   @Override
-  public List<ExternalVisioConnector> getConfiguredExternalVisioConnectors(Identity identity, String spaceId) {
+  public List<ExternalVisioConnector> getConfiguredExternalVisioConnectors(Identity identity) {
     List<ExternalVisioConnectorEntity> externalVisioConnectors = identity.isSpace()
         || identity.isUser() ? externalVisioConnectorDAO.getActiveExternalVisioConnectors(identity.isSpace()) : new ArrayList<>();
-    return externalVisioConnectors.stream()
-                                  .map(EntityBuilder::fromEntity)
-                                  .map(p -> getExternalVisioConnectorsUrl(identity, spaceId, p))
-                                  .filter(p -> p.getUrl() != null)
-                                  .toList();
+    return externalVisioConnectors.stream().map(EntityBuilder::fromEntity).map(p -> {
+      p.setUrl(getExternalVisioConnectorsUrl(identity, p));
+      return p;
+    }).filter(p -> p.getUrl() != null).toList();
   }
 
-  public ExternalVisioConnector getExternalVisioConnectorsUrl(Identity identity, String spaceId, ExternalVisioConnector externalVisioConnector) {
+  public String getExternalVisioConnectorsUrl(Identity identity, ExternalVisioConnector externalVisioConnector) {
+    String url = null;
     if (identity.isSpace()) {
+      Space space = spaceService.getSpaceByPrettyName(identity.getRemoteId());
       SettingValue<?> settingValue = settingService.get(Context.GLOBAL,
-                                                        Scope.SPACE.id(spaceId),
+                                                        Scope.SPACE.id(space.getId()),
                                                         String.valueOf(externalVisioConnector.getId()));
       if (settingValue != null) {
-        externalVisioConnector.setUrl(String.valueOf(settingValue.getValue()));
+        url = String.valueOf(settingValue.getValue());
       }
     } else if (identity.isUser()) {
-      externalVisioConnector.setUrl((String) identity.getProfile().getProperty(externalVisioConnector.getName()));
+      url = (String) identity.getProfile().getProperty(externalVisioConnector.getName());
     }
-    return externalVisioConnector;
+    return url;
   }
 
   public void createPropertySetting(ExternalVisioConnectorEntity externalVisioConnectorEntity) {

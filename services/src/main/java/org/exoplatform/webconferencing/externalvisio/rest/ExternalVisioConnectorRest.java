@@ -181,7 +181,7 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
     }
     try {
       List<ExternalVisioConnector> externalVisioConnectors =
-                                                           externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity, space.getId());
+                                                           externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity);
       return Response.ok(externalVisioConnectors).build();
     } catch (Exception e) {
       LOG.warn("Error retrieving list of configured external visio connectors", e);

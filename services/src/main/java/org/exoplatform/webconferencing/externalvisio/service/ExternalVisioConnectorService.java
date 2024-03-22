@@ -38,5 +38,5 @@ public interface ExternalVisioConnectorService {
 
   List<ExternalVisioConnector> getActiveExternalVisioConnectorsForUser();
 
-  List<ExternalVisioConnector> getConfiguredExternalVisioConnectors(Identity identity, String spaceId);
+  List<ExternalVisioConnector> getConfiguredExternalVisioConnectors(Identity identity);
 }
