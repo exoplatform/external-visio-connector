@@ -49,6 +49,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
     <depends>
       <module>webConferencing</module>
     </depends>
+     <depends>
+      <module>webConferencing_VisioConnectorMeet</module>
+      <as>callButton</as>
+    </depends>
   </module>
 
   <module>
@@ -63,6 +67,26 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
     </depends>
     <depends>
       <module>webConferencing_externalvisio</module>
+    </depends>
+  </module>
+
+  <module>
+    <name>webConferencing_VisioConnectorMeet</name>
+    <load-group>webConferencingJitsiGRP</load-group>
+    <script>
+      <path>/js/callButton.bundle.js</path>
+    </script>
+    <depends>
+      <module>webConferencing</module>
+    </depends>
+    <depends>
+      <module>vue</module>
+    </depends>
+    <depends>
+      <module>vuetify</module>
+    </depends>
+    <depends>
+      <module>eXoVueI18n</module>
     </depends>
   </module>
 

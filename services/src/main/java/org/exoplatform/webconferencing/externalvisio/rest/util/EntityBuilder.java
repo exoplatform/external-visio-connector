@@ -27,6 +27,7 @@ public class EntityBuilder {
     }
     return new ExternalVisioConnector(externalVisioConnectorEntity.getId(),
                                       externalVisioConnectorEntity.getName(),
+                                      null,
                                       externalVisioConnectorEntity.isActiveForUsers(),
                                       externalVisioConnectorEntity.isActiveForSpaces(),
                                       externalVisioConnectorEntity.isEnabled(),
