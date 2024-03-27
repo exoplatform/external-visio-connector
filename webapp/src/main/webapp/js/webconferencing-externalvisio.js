@@ -93,10 +93,10 @@
         });
       }
       var startCall = function(url) {
-        if (!url.match(/^(https?:\/\/|javascript:|\/portal\/)/)) {
-        url = `//${url}`;
-      }
-      window.open(url, '_blank');
+        if (!url.match(/^(https?:\/\/|\/portal\/)/)) {
+          url = `//${url}`;
+        }
+        window.open(url, '_blank');
       }
 
       this.callButton = function(context, buttonType) {
