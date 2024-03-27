@@ -93,7 +93,10 @@
         });
       }
       var startCall = function(url) {
-        window.open(url, '_Blank');
+        if (!url.match(/^(https?:\/\/|\/portal\/)/)) {
+          url = `//${url}`;
+        }
+        window.open(url, '_blank');
       }
 
       this.callButton = function(context, buttonType) {
