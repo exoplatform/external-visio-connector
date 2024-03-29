@@ -80,8 +80,76 @@
         }
       };
 
+      var getActiveProviders = function(identityId) {
+        return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio/${identityId}`, {
+          credentials: 'include',
+          method: 'GET'
+        }).then(resp => {
+          if (resp.ok) {
+            return resp.json();
+          } else {
+            throw new Error('Error when retrieving active providers');
+          }
+        });
+      }
+      var startCall = function(url) {
+        if (!url.match(/^(https?:\/\/|\/portal\/)/)) {
+          url = `//${url}`;
+        }
+        window.open(url, '_blank');
+      }
+
       this.callButton = function(context, buttonType) {
         var button = $.Deferred();
+        if (context && context.currentUser) {
+          context.details().then(target => {
+            if (!buttonType || buttonType === "vue") {
+              let activeButtons = [];
+              const identityId = context.isSpace ? context.spaceId : context.userId;
+              getActiveProviders(identityId)
+              .then((activeProviders) => {
+                activeButtons = activeProviders;
+                const buttonComponents = []; // Créer une liste pour stocker les composants Vue
+                activeButtons.forEach(p => {
+                  const callSettings = {};
+                  callSettings.target = target;
+                  callSettings.context = context;
+                  callSettings.provider = self;
+                  callSettings.nameConnector = p.name;
+                  callSettings.urlConnector = p.url;
+                  callSettings.onCallOpen = () => {
+                    startCall(callSettings.urlConnector);
+                  };
+                  callButton.init(callSettings).then(comp => {
+                    // Ajouter le composant Vue à la liste
+                    buttonComponents.push(comp);
+                    
+                    if (buttonComponents.length === activeButtons.length) {
+                      button.resolve(buttonComponents);
+                    }
+                  });
+                });
+              });
+            } else {
+              const message = "Button type not supported: " + buttonType;
+              log.error(message);
+              button.reject(message);
+            }
+          }).catch(err => {
+            // Gérer les erreurs
+            if (err && err.code == "NOT_FOUND_ERROR") {
+              button.reject(err.message);
+            } else {
+              var msg = "Error getting context details";
+              log.error(msg, err);
+              button.reject(msg, err);
+            }
+          });
+        } else {
+          var msg = "Not configured or empty context";
+          log.error(msg);
+          button.reject(msg);
+        }
         return button.promise();
       };
 
@@ -104,4 +172,4 @@
       window.console
         .log("WARN: webConferencing not given and eXo.webConferencing not defined. ExternalVisio provider registration skipped.");
   }
-})($, webConferencing);
+})($, webConferencing, callButton);

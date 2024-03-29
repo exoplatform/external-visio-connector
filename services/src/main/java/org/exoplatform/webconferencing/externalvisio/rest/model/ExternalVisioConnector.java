@@ -29,6 +29,8 @@ public class ExternalVisioConnector {
 
   private String  name;
 
+  private String  url;
+
   private boolean activeForUsers;
 
   private boolean activeForSpaces;

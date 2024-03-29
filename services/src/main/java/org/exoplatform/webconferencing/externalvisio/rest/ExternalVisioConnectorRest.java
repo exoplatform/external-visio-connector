@@ -27,6 +27,12 @@ import org.exoplatform.commons.exception.ObjectNotFoundException;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
 import org.exoplatform.services.rest.resource.ResourceContainer;
+import org.exoplatform.services.security.ConversationState;
+import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.manager.IdentityManager;
+import org.exoplatform.social.core.space.model.Space;
+import org.exoplatform.social.core.space.spi.SpaceService;
+import org.exoplatform.webconferencing.ActiveCallProvider;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnectors;
 import org.exoplatform.webconferencing.externalvisio.rest.util.EntityBuilder;
@@ -45,8 +51,16 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
 
   private final ExternalVisioConnectorService externalVisioConnectorService;
 
-  public ExternalVisioConnectorRest(ExternalVisioConnectorService externalVisioConnectorService) {
+  private final IdentityManager               identityManager;
+
+  private final SpaceService                  spaceService;
+
+  public ExternalVisioConnectorRest(ExternalVisioConnectorService externalVisioConnectorService,
+                                    IdentityManager identityManager,
+                                    SpaceService spaceService) {
     this.externalVisioConnectorService = externalVisioConnectorService;
+    this.identityManager = identityManager;
+    this.spaceService = spaceService;
   }
 
   @POST
@@ -138,6 +152,39 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
       return Response.ok(updatedExternalVisioConnector).build();
     } catch (Exception e) {
       LOG.warn("Error updating an ExternalVisioConnector", e);
+      return Response.serverError().entity(e.getMessage()).build();
+    }
+  }
+
+  @GET
+  @RolesAllowed("users")
+  @Path("{identityId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Operation(summary = "Retrieves the list of configured external visio connectors", method = "GET", description = "Retrieves the list of configured external visio connectors")
+  @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+      @ApiResponse(responseCode = "400", description = "Invalid query input"),
+      @ApiResponse(responseCode = "401", description = "Unauthorized"),
+      @ApiResponse(responseCode = "500", description = "Internal server error"), })
+  public Response getConfiguredExternalVisioConnectors(@Parameter(description = "identityId", required = true)
+  @PathParam("identityId")
+  String identityId) {
+    String authenticatedUser = ConversationState.getCurrent().getIdentity().getUserId();
+    Space space = spaceService.getSpaceByPrettyName(identityId);
+    Identity identity = null;
+    if (space != null) {
+      identity = identityManager.getOrCreateSpaceIdentity(identityId);
+      if (!spaceService.isMember(space, authenticatedUser) && !spaceService.isSuperManager(authenticatedUser)) {
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+      }
+    } else {
+      identity = identityManager.getOrCreateUserIdentity(identityId);
+    }
+    try {
+      List<ExternalVisioConnector> externalVisioConnectors =
+                                                           externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity);
+      return Response.ok(externalVisioConnectors).build();
+    } catch (Exception e) {
+      LOG.warn("Error retrieving list of configured external visio connectors", e);
       return Response.serverError().entity(e.getMessage()).build();
     }
   }

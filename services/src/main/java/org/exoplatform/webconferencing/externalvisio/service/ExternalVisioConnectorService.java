@@ -16,8 +16,8 @@
  */
 package org.exoplatform.webconferencing.externalvisio.service;
 
-import org.exoplatform.commons.ObjectAlreadyExistsException;
 import org.exoplatform.commons.exception.ObjectNotFoundException;
+import org.exoplatform.social.core.identity.model.Identity;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnectors;
@@ -35,4 +35,8 @@ public interface ExternalVisioConnectorService {
   ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException;
 
   List<ExternalVisioConnector> getActiveExternalVisioConnectorsForSpace();
+
+  List<ExternalVisioConnector> getActiveExternalVisioConnectorsForUser();
+
+  List<ExternalVisioConnector> getConfiguredExternalVisioConnectors(Identity identity);
 }

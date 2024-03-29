@@ -39,15 +39,19 @@ public class ExternalVisioConnectorDAO extends GenericDAOJPAImpl<ExternalVisioCo
     }
   }
 
-  public List<ExternalVisioConnectorEntity> getActiveExternalVisioConnectorsForSpace() {
-    TypedQuery<ExternalVisioConnectorEntity> query =
-            getEntityManager().createNamedQuery("ExternalVisioConnector.getActiveExternalVisioConnectorsForSpaces",
-                    ExternalVisioConnectorEntity.class);
+  public List<ExternalVisioConnectorEntity> getActiveExternalVisioConnectors(boolean forSpaces) {
+    String queryName = "ExternalVisioConnector.getActiveExternalVisioConnectorsFor";
+    if (!forSpaces) {
+      queryName += "Users";
+    } else {
+      queryName += "Spaces";
+    }
+    TypedQuery<ExternalVisioConnectorEntity> query = getEntityManager().createNamedQuery(queryName,
+                                                                                         ExternalVisioConnectorEntity.class);
     try {
       return query.getResultList();
     } catch (NoResultException e) {
       return Collections.emptyList();
     }
-
   }
 }
