@@ -16,6 +16,9 @@
  */
 package org.exoplatform.webconferencing.externalvisio;
 
+import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.manager.IdentityManager;
+import org.exoplatform.social.core.space.model.Space;
 import org.exoplatform.webconferencing.ActiveCallProvider;
 import org.exoplatform.webconferencing.CallProvider;
 import org.exoplatform.webconferencing.CallProviderException;
@@ -24,6 +27,7 @@ import org.exoplatform.container.configuration.ConfigurationException;
 import org.exoplatform.webconferencing.externalvisio.rest.model.ExternalVisioConnector;
 import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnectorService;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ExternalVisioProvider extends CallProvider {
@@ -39,6 +43,7 @@ public class ExternalVisioProvider extends CallProvider {
   public static final String EXTERNAL_VISIO_TITLE = "ExternalVisio";
 
   private ExternalVisioConnectorService externalVisioConnectorService;
+  private IdentityManager               identityManager;
 
   /**
    * Instantiates a new web conferencing provider.
@@ -46,9 +51,10 @@ public class ExternalVisioProvider extends CallProvider {
    * @param params the params
    * @throws ConfigurationException the configuration exception
    */
-  public ExternalVisioProvider(org.exoplatform.container.xml.InitParams params, ExternalVisioConnectorService externalVisioConnectorService) throws ConfigurationException {
+  public ExternalVisioProvider(org.exoplatform.container.xml.InitParams params, ExternalVisioConnectorService externalVisioConnectorService, IdentityManager identityManager) throws ConfigurationException {
     super(params);
     this.externalVisioConnectorService = externalVisioConnectorService;
+    this.identityManager = identityManager;
   }
 
   @Override
@@ -83,5 +89,18 @@ public class ExternalVisioProvider extends CallProvider {
     return externalVisioConnectors.stream().map(externalVisioConnector -> {
       return new ActiveCallProvider(externalVisioConnector.getId().toString(), externalVisioConnector.getName(), null, false);
     }).toList();
+  }
+
+  @Override
+  public boolean canInvite() {
+    return false;
+  }
+
+  public boolean isConfiguredForIdentity(String remoteId) {
+    Identity identity = identityManager.getOrCreateSpaceIdentity(remoteId);
+    if (identity == null) {
+      identity = identityManager.getOrCreateUserIdentity(remoteId);
+    }
+    return !externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity).isEmpty();
   }
 }
