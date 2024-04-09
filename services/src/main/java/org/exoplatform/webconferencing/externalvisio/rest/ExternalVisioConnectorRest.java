@@ -41,6 +41,7 @@ import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnec
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/v1/externalVisio")
@@ -180,8 +181,11 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
       identity = identityManager.getOrCreateUserIdentity(identityId);
     }
     try {
-      List<ExternalVisioConnector> externalVisioConnectors =
-                                                           externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity);
+      List<ExternalVisioConnector> externalVisioConnectors = new ArrayList<>();
+      if (identity!=null) {
+        externalVisioConnectors =
+            externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity);
+      }
       return Response.ok(externalVisioConnectors).build();
     } catch (Exception e) {
       LOG.warn("Error retrieving list of configured external visio connectors", e);

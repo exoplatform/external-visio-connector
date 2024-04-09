@@ -48,6 +48,13 @@
         settings = newSettings;
       };
 
+      this.linkSupported = true;
+
+      /**
+       * Jitsi supports group calls.
+       */
+      this.groupSupported = true;
+
       /**
        * MUST return a call type name. If several types supported, this one is
        * assumed as major one and it will be used for referring this connector
@@ -59,6 +66,13 @@
 //        if (settings) {
 //          return settings.type;
 //        }
+      };
+
+      /**
+      * Must return if the current provider support invited users
+      */
+      this.supportInvitedUsers = function() {
+        return false;
       };
 
       /**
@@ -75,9 +89,7 @@
        * MUST return human-readable title of a connector.
        */
       this.getTitle = function() {
-        if (settings) {
-          return settings.title;
-        }
+        return 'ExternalVisio';
       };
 
       var getActiveProviders = function(identityId) {
@@ -105,31 +117,35 @@
           context.details().then(target => {
             if (!buttonType || buttonType === "vue") {
               let activeButtons = [];
+              if (context.isSpace || context.isUser) {
               const identityId = context.isSpace ? context.spaceId : context.userId;
-              getActiveProviders(identityId)
-              .then((activeProviders) => {
-                activeButtons = activeProviders;
-                const buttonComponents = []; // Créer une liste pour stocker les composants Vue
-                activeButtons.forEach(p => {
-                  const callSettings = {};
-                  callSettings.target = target;
-                  callSettings.context = context;
-                  callSettings.provider = self;
-                  callSettings.nameConnector = p.name;
-                  callSettings.urlConnector = p.url;
-                  callSettings.onCallOpen = () => {
-                    startCall(callSettings.urlConnector);
-                  };
-                  callButton.init(callSettings).then(comp => {
-                    // Ajouter le composant Vue à la liste
-                    buttonComponents.push(comp);
-                    
-                    if (buttonComponents.length === activeButtons.length) {
-                      button.resolve(buttonComponents);
-                    }
+                getActiveProviders(identityId)
+                .then((activeProviders) => {
+                  activeButtons = activeProviders;
+                  const buttonComponents = []; // Créer une liste pour stocker les composants Vue
+                  activeButtons.forEach(p => {
+                    const callSettings = {};
+                    callSettings.target = target;
+                    callSettings.context = context;
+                    callSettings.provider = self;
+                    callSettings.nameConnector = p.name;
+                    callSettings.urlConnector = p.url;
+                    callSettings.onCallOpen = () => {
+                      startCall(callSettings.urlConnector);
+                    };
+                    callButton.init(callSettings).then(comp => {
+                      // Ajouter le composant Vue à la liste
+                      buttonComponents.push(comp);
+
+                      if (buttonComponents.length === activeButtons.length) {
+                        button.resolve(buttonComponents);
+                      }
+                    });
                   });
                 });
-              });
+              } else {
+                button.resolve(activeButtons);
+              }
             } else {
               const message = "Button type not supported: " + buttonType;
               log.error(message);
@@ -152,6 +168,29 @@
         }
         return button.promise();
       };
+
+      this.getCallId = function(context) {
+        var process = $.Deferred();
+        if (context.isUser) {
+          process.resolve(context.currentUser.id);
+        } else {
+          Vue.prototype.$identityService.getIdentityById(context.spaceId)
+            .then((identity) => process.resolve(identity.remoteId));
+        }
+        return process.promise();
+      };
+
+      var getCallUrl = function(callId) {
+        var process = $.Deferred();
+        getActiveProviders(callId)
+          .then((activeProviders) => {
+            if(activeProviders.length>0) {
+              process.resolve(activeProviders[0].url);
+            }
+          });
+        return process.promise();
+      };
+      this.getCallUrl = getCallUrl;
 
     };
 

@@ -149,7 +149,7 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
     return externalVisioConnectors.stream().map(EntityBuilder::fromEntity).map(p -> {
       p.setUrl(getExternalVisioConnectorsUrl(identity, p));
       return p;
-    }).filter(p -> p.getUrl() != null).toList();
+    }).filter(p -> p.getUrl() != null && !p.getUrl().isBlank()).toList();
   }
 
   public String getExternalVisioConnectorsUrl(Identity identity, ExternalVisioConnector externalVisioConnector) {
