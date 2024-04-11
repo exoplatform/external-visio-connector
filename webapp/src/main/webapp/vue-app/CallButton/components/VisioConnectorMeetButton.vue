@@ -1,7 +1,7 @@
 
 
 <template>
-  <div class="width-auto d-flex flex-row">
+  <div>
     <v-tooltip
       bottom
       :disabled="!displayTooltip">
