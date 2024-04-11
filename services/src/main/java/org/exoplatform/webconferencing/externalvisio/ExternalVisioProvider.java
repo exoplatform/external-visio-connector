@@ -19,6 +19,7 @@ package org.exoplatform.webconferencing.externalvisio;
 import org.exoplatform.social.core.identity.model.Identity;
 import org.exoplatform.social.core.manager.IdentityManager;
 import org.exoplatform.social.core.space.model.Space;
+import org.exoplatform.social.core.space.spi.SpaceService;
 import org.exoplatform.webconferencing.ActiveCallProvider;
 import org.exoplatform.webconferencing.CallProvider;
 import org.exoplatform.webconferencing.CallProviderException;
@@ -43,6 +44,7 @@ public class ExternalVisioProvider extends CallProvider {
   public static final String EXTERNAL_VISIO_TITLE = "ExternalVisio";
 
   private ExternalVisioConnectorService externalVisioConnectorService;
+  private SpaceService                  spaceService;
   private IdentityManager               identityManager;
 
   /**
@@ -51,10 +53,11 @@ public class ExternalVisioProvider extends CallProvider {
    * @param params the params
    * @throws ConfigurationException the configuration exception
    */
-  public ExternalVisioProvider(org.exoplatform.container.xml.InitParams params, ExternalVisioConnectorService externalVisioConnectorService, IdentityManager identityManager) throws ConfigurationException {
+  public ExternalVisioProvider(org.exoplatform.container.xml.InitParams params, ExternalVisioConnectorService externalVisioConnectorService, IdentityManager identityManager, SpaceService spaceService) throws ConfigurationException {
     super(params);
     this.externalVisioConnectorService = externalVisioConnectorService;
     this.identityManager = identityManager;
+    this.spaceService = spaceService;
   }
 
   @Override
@@ -87,7 +90,7 @@ public class ExternalVisioProvider extends CallProvider {
     List<ExternalVisioConnector> externalVisioConnectors = externalVisioConnectorService.getActiveExternalVisioConnectorsForSpace();
 
     return externalVisioConnectors.stream().map(externalVisioConnector -> {
-      return new ActiveCallProvider(externalVisioConnector.getId().toString(), externalVisioConnector.getName(), null, false);
+      return new ActiveCallProvider(externalVisioConnector.getId().toString(), externalVisioConnector.getName(), null, false, true);
     }).toList();
   }
 
@@ -98,9 +101,14 @@ public class ExternalVisioProvider extends CallProvider {
 
   public boolean isConfiguredForIdentity(String remoteId) {
     Identity identity = identityManager.getOrCreateSpaceIdentity(remoteId);
-    if (identity == null) {
+    if (identity==null) {
       identity = identityManager.getOrCreateUserIdentity(remoteId);
     }
-    return !externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity).isEmpty();
+    if (identity!=null) {
+      return !externalVisioConnectorService.getConfiguredExternalVisioConnectors(identity).isEmpty();
+    } else {
+      //no external visio for room which is not a space nor a user
+      return false;
+    }
   }
 }
