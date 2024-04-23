@@ -24,10 +24,10 @@
     <span
       class="text-truncate text-break text-wrap pt-2"
       v-if="displayConnectorName"
-      @click.stop.prevent="startCall">{{ nameConnector }}</span>
+      @click="startCall">{{ nameConnector }}</span>
     <span
       v-else-if="!displayTooltip"
-      @click.stop.prevent="startCall">{{ $t('externalVisio.label.btn.StartCall') }}</span>
+      @click="startCall">{{ $t('externalVisio.label.btn.StartCall') }}</span>
   </div>
 </template>
 
