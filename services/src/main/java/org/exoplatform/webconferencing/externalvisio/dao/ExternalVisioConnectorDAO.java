@@ -16,8 +16,8 @@
  */
 package org.exoplatform.webconferencing.externalvisio.dao;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.NoResultException;
 import org.exoplatform.webconferencing.externalvisio.entity.ExternalVisioConnectorEntity;
 import org.exoplatform.commons.persistence.impl.GenericDAOJPAImpl;
 
