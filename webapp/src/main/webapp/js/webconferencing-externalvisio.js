@@ -130,6 +130,7 @@
                     callSettings.provider = self;
                     callSettings.nameConnector = p.name;
                     callSettings.urlConnector = p.url;
+                    callSettings.order = p.order;
                     callSettings.onCallOpen = () => {
                       startCall(callSettings.urlConnector);
                     };
@@ -138,6 +139,9 @@
                       buttonComponents.push(comp);
 
                       if (buttonComponents.length === activeButtons.length) {
+                        buttonComponents.sort((button1, button2) => {
+                          return (button1.callSettings.order - button2.callSettings.order);
+                        });
                         button.resolve(buttonComponents);
                       }
                     });
