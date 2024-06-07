@@ -170,6 +170,7 @@ export default {
       this.$nextTick().then(() => this.$refs.externalVisioConnectorAddDrawer.open());
     },
     close() {
+      this.editMode = false;
       this.externalVisioName = null;
       this.isUserConnector= true;
       this.isSpaceConnector= true;
