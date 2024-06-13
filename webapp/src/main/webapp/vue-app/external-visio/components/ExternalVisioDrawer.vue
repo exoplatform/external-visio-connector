@@ -25,13 +25,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
       @closed="close">
       <template slot="title">
         <div class="d-flex">
-          <v-icon
-            size="16"
-            class="clickable"
-            :aria-label="$t('externalVisio.close.label')"
-            @click="close()">
-            fas fa-arrow-left
-          </v-icon>
           <span> {{ title }} </span>
         </div>
       </template>
