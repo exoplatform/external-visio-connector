@@ -40,6 +40,7 @@ import org.exoplatform.webconferencing.externalvisio.service.ExternalVisioConnec
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnectorService {
 
@@ -130,6 +131,16 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
     return EntityBuilder.fromEntity(externalVisioConnectorDAO.update(externalVisioConnectorEntity));
   }
 
+
+  public void deleteExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException {
+    if (externalVisioConnectorEntity == null) {
+      throw new IllegalArgumentException("externalVisioConnectorEntity is mandatory");
+    }
+    externalVisioConnectorDAO.delete(externalVisioConnectorEntity);
+    removeConnectorSettingForAllSpaces(externalVisioConnectorEntity);
+    removePropertySetting(externalVisioConnectorEntity);
+  }
+
   @Override
   public List<ExternalVisioConnector> getActiveExternalVisioConnectorsForSpace() {
     List<ExternalVisioConnectorEntity> activeVisioConnectorEntityList = externalVisioConnectorDAO.getActiveExternalVisioConnectors(true);
@@ -184,4 +195,32 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
       LOG.warn("Profile property " + profilePropertySetting.getPropertyName() + " already exists");
     }
   }
+
+  private void removeConnectorSettingForAllSpaces(ExternalVisioConnectorEntity externalVisioConnectorEntity) {
+    Map<Scope, Map<String, SettingValue<String>>>
+        settings = settingService.getSettingsByContext(Context.GLOBAL);
+
+    settings.entrySet()
+            .stream()
+            .filter(entry -> entry.getKey().getName().equals(Scope.SPACE.getName()))
+            .forEach(entry -> {
+              entry.getValue()
+                   .entrySet()
+                   .stream()
+                   .filter(settingEntry -> settingEntry.getKey().equals(String.valueOf(externalVisioConnectorEntity.getId())))
+                   .forEach(settingEntry -> {
+                     settingService.remove(Context.GLOBAL, entry.getKey(), String.valueOf(externalVisioConnectorEntity.getId()));
+                   });
+            });
+
+  }
+
+
+  public void removePropertySetting(ExternalVisioConnectorEntity externalVisioConnectorEntity) {
+    ProfilePropertySetting profilePropertySetting = profilePropertyService.getProfileSettingByName(externalVisioConnectorEntity.getName());
+    if (profilePropertySetting != null) {
+      profilePropertyService.deleteProfilePropertySetting(profilePropertySetting.getId());
+    }
+  }
 }
+
