@@ -81,10 +81,34 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
               </v-btn>
             </div>
           </td>
+          <td>
+            <div class="align-center">
+              <v-btn
+                v-on="on"
+                :title="$t('externalVisio.settings.deleteConnector')"
+                primary
+                icon
+                @click="deleteConnector(props.item)">
+                <v-icon
+                  class="primary--text"
+                  size="18">
+                  fas fa-trash
+                </v-icon>
+              </v-btn>
+            </div>
+          </td>
         </tr>
       </template>
     </v-data-table>
     <external-visio-drawer />
+    <exo-confirm-dialog
+      ref="deleteConfirmDialog"
+      :title="$t('externalVisio.settings.confirmDeleteTitle')"
+      :message="$t('externalVisio.settings.confirmDeleteMessage')"
+      :ok-label="$t('externalVisio.settings.confirm')"
+      :cancel-label="$t('externalVisio.settings.cancel')"
+      @ok="confirmDeleteConnector(connectorToDelete)"
+      @closed="closePopup()" />
   </v-app>
 </template>
 <script>
@@ -95,6 +119,7 @@ export default {
     itemsPerPage: 10,
     hideFooter: false,
     enabled: true,
+    connectorToDelete: null
   }),
   created() {
     this.$root.$on('save-external-visio-connector', this.saveExternalVisioConnector);
@@ -103,7 +128,8 @@ export default {
     this.headers = [
       { text: this.$t('externalVisio.settings.name'), align: 'left' },
       { text: this.$t('externalVisio.settings.order'), align: 'center' , width: '60px'},
-      { text: this.$t('externalVisio.settings.edit'), align: 'center' , width: '60px'}
+      { text: this.$t('externalVisio.settings.edit'), align: 'center' , width: '60px'},
+      { text: this.$t('externalVisio.settings.delete'), align: 'center' , width: '60px'}
     ];
   },
   methods: {
@@ -166,6 +192,22 @@ export default {
         visioConnectors: this.externalVisioConnectors
       };
       this.$externalVisioConnectorService.saveConnectorOrders(visioConnectors);
+    },
+    deleteConnector(connector) {
+      this.connectorToDelete = connector;
+      if (this.connectorToDelete) {
+        this.$refs.deleteConfirmDialog.open();
+      }
+    },
+    confirmDeleteConnector(connector) {
+      this.$externalVisioConnectorService.deleteExternalVisioConnector(connector)
+        .then(() => {
+          this.$root.$emit('alert-message', this.$t('externalVisio.settings.delete.success'), 'success');
+          this.getExternalVisioConnectors();
+        });
+    },
+    closePopup() {
+      this.connectorToDelete = null;
     }
   }
 };
