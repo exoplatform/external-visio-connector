@@ -132,7 +132,8 @@ public class ExternalVisioConnectorServiceImpl implements ExternalVisioConnector
   }
 
 
-  public void deleteExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException {
+  public void deleteExternalVisioConnector(long externalVisioId) {
+    ExternalVisioConnectorEntity externalVisioConnectorEntity = externalVisioConnectorDAO.find(externalVisioId);
     if (externalVisioConnectorEntity == null) {
       throw new IllegalArgumentException("externalVisioConnectorEntity is mandatory");
     }

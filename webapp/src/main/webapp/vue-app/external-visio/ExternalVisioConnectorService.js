@@ -66,11 +66,7 @@ export function deleteExternalVisioConnector(externalVisioConnector) {
 
   return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio/${externalVisioConnector.id}`, {
     method: 'DELETE',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(externalVisioConnector),
+    credentials: 'include'
   }).then((resp) => {
     if (!resp || !resp.ok) {
       throw new Error('Error deleting ExternalVisioConnector');
