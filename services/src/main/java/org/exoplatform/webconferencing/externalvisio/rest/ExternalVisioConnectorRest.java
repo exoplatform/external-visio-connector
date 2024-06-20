@@ -159,7 +159,6 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
 
   @DELETE
   @Path("{id}")
-  @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @RolesAllowed("administrators")
   @Operation(summary = "Deletes an ExternalVisioConnector", description = "Deletes an ExternalVisioConnector", method = "PUT")
@@ -168,16 +167,12 @@ public class ExternalVisioConnectorRest implements ResourceContainer {
       @ApiResponse(responseCode = "500", description = "Internal server error"), })
   public Response deleteExternalVisioConnector(@Parameter(description = "External visio id", required = true)
                                                @PathParam("id")
-                                               long externalVisioId, @RequestBody(description = "externalVisioConnector object to delete", required = true)
-                                               ExternalVisioConnector externalVisioConnector) {
-    if (externalVisioConnector == null) {
-      return Response.status(Response.Status.BAD_REQUEST).entity("externalVisioConnector object is mandatory").build();
-    }
+                                               long externalVisioId) {
     if (externalVisioId <= 0) {
       return Response.status(Response.Status.BAD_REQUEST).entity("ExternalVisio technical identifier must be positive").build();
     }
     try {
-      externalVisioConnectorService.deleteExternalVisioConnector(EntityBuilder.toEntity(externalVisioConnector));
+      externalVisioConnectorService.deleteExternalVisioConnector(externalVisioId);
       return Response.ok().build();
     } catch (Exception e) {
       LOG.warn("Error deleting an ExternalVisioConnector", e);

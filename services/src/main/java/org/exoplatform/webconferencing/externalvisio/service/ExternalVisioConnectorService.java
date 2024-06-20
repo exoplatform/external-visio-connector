@@ -34,7 +34,7 @@ public interface ExternalVisioConnectorService {
 
   ExternalVisioConnector updateExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException;
 
-  void deleteExternalVisioConnector(ExternalVisioConnectorEntity externalVisioConnectorEntity) throws ObjectNotFoundException;
+  void deleteExternalVisioConnector(long id) throws ObjectNotFoundException;
 
   List<ExternalVisioConnector> getActiveExternalVisioConnectorsForSpace();
 
