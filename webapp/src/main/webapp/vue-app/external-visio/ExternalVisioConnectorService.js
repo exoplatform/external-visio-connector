@@ -60,3 +60,16 @@ export function updateExternalVisioConnector(externalVisioConnector) {
     }
   });
 }
+
+
+export function deleteExternalVisioConnector(externalVisioConnector) {
+
+  return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/v1/externalVisio/${externalVisioConnector.id}`, {
+    method: 'DELETE',
+    credentials: 'include'
+  }).then((resp) => {
+    if (!resp || !resp.ok) {
+      throw new Error('Error deleting ExternalVisioConnector');
+    }
+  });
+}
