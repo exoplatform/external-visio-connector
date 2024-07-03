@@ -36,7 +36,7 @@ along with this program. If not, see <http://www.gnu.org/licenses
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.exoplatform.kernel</groupId>
+      <groupId>io.meeds.kernel</groupId>
       <artifactId>exo.kernel.container</artifactId>
     </dependency>
     <dependency>
@@ -49,17 +49,17 @@ along with this program. If not, see <http://www.gnu.org/licenses
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.exoplatform.gatein.portal</groupId>
-      <artifactId>exo.portal.component.common</artifactId>
+      <groupId>io.meeds.portal</groupId>
+      <artifactId>portal.component.common</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.exoplatform.ws</groupId>
+      <groupId>io.meeds.ws</groupId>
       <artifactId>exo.ws.rest.core</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.exoplatform.social</groupId>
+      <groupId>io.meeds.social</groupId>
       <artifactId>social-component-api</artifactId>
       <scope>provided</scope>
     </dependency>
