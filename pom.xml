@@ -15,7 +15,8 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>addons-exo-parent-pom</artifactId>
@@ -25,12 +26,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
 
   <groupId>org.exoplatform.addons.external-visio-connector</groupId>
   <artifactId>external-visio-connector</artifactId>
-  <version>7.0.0-20240730</version>
+  <version>7.0.x-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>eXo Add-on:: eXo External Visio Connector</name>
   <description>eXo Web Conferencing portal extension</description>
   <properties>
-    <addon.exo.web-conferencing.version>7.0.0-20240730</addon.exo.web-conferencing.version>
+    <addon.exo.web-conferencing.version>7.0.x-SNAPSHOT</addon.exo.web-conferencing.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -65,8 +66,4 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
     <module>webapp</module>
     <module>packaging</module>
   </modules>
-
-  <scm>
-    <tag>7.0.0-20240730</tag>
-  </scm>
 </project>
