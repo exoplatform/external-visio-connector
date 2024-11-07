@@ -30,11 +30,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
     <changeSet author="externalVisioConnector" id="1.0.0-0">
+        <validCheckSum>9:ca30e7b7d20df5754b94622ea51b6f08</validCheckSum>
+        <validCheckSum>9:2d7e4df03eafaeac6237efbb86937501</validCheckSum>
         <createTable tableName="EXTERNAL_VISIO_CONNECTOR">
             <column name="ID" type="BIGINT" autoIncrement="${autoIncrement}" startWith="1">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PK_External_Visio_Connector"/>
             </column>
-            <column name="NAME" type="NVARCHAR(250)">
+            <column name="NAME" type="VARCHAR(250)">
                 <constraints nullable="false"/>
             </column>
             <column name="ACTIVE_FOR_USERS" type="BOOLEAN" defaultValueBoolean="false">
@@ -45,7 +47,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             </column>
         </createTable>
         <modifySql dbms="mysql">
-            <append value=" ENGINE=INNODB CHARSET=UTF8 COLLATE utf8_general_ci"/>
+            <append value=" ENGINE=INNODB CHARSET=UTF8MB4 COLLATE utf8mb4_0900_ai_ci"/>
         </modifySql>
     </changeSet>
     <changeSet author="externalVisioConnector" id="1.0.0-1">
@@ -64,5 +66,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
     <changeSet author="externalVisioConnector" id="1.0.0-3" dbms="hsqldb,oracle,postgresql">
         <createSequence sequenceName="SEQ_EXTERNAL_VISIO_CONNECTOR_ID" startValue="1"/>
     </changeSet>
-
+    <changeSet author="externalVisioConnector" id="1.0.0-4" >
+        <sql dbms="mysql">
+            ALTER TABLE EXTERNAL_VISIO_CONNECTOR CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
