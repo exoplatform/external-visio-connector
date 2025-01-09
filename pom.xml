@@ -31,7 +31,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
   <name>eXo Add-on:: eXo External Visio Connector</name>
   <description>eXo Web Conferencing portal extension</description>
   <properties>
-    <addon.exo.web-conferencing.version>7.0.x-SNAPSHOT</addon.exo.web-conferencing.version>
+    <addon.exo.web-conferencing.version>7.0.0-20250109</addon.exo.web-conferencing.version>
   </properties>
   <dependencyManagement>
     <dependencies>
