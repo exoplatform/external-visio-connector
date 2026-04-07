@@ -1,7 +1,7 @@
 
 
 <template>
-  <div>
+  <div class="d-flex align-center full-width">
     <v-tooltip
       bottom
       :disabled="!displayTooltip">
@@ -23,7 +23,7 @@
       <span v-if="displayTooltip">{{ $t('externalVisio.label.btn.StartCall') }}</span>
     </v-tooltip>
     <span
-      class="text-truncate text-break text-wrap pt-2"
+      class="text-truncate text-break text-wrap"
       v-if="displayConnectorName"
       @click.stop.prevent="startCall">{{ nameConnector }}</span>
     <span
