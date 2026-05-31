@@ -16,16 +16,20 @@
  */
 package org.exoplatform.webconferencing.externalvisio.entity;
 
+import java.io.Serializable;
+
+import io.meeds.common.persistence.PortableSequence;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.exoplatform.commons.api.persistence.ExoEntity;
-
-import jakarta.persistence.*;
-import java.io.Serializable;
 
 @Entity(name = "ExternalVisioConnector")
-@ExoEntity
 @Table(name = "EXTERNAL_VISIO_CONNECTOR")
 @NamedQuery(name = "ExternalVisioConnector.getExternalVisioConnectors", query = "SELECT connector FROM ExternalVisioConnector connector WHERE connector.enabled = :enabled  ORDER BY connector.order ASC")
 @NamedQuery(name = "ExternalVisioConnector.getActiveExternalVisioConnectorsForSpaces", query = "SELECT connector FROM ExternalVisioConnector connector WHERE connector.activeForSpaces = true  ORDER BY connector.order ASC")
@@ -38,8 +42,7 @@ public class ExternalVisioConnectorEntity implements Serializable {
   private static final long serialVersionUID = -5427975208480223009L;
 
   @Id
-  @SequenceGenerator(name = "SEQ_External_Visio_Connector_ID", sequenceName = "SEQ_External_Visio_Connector_ID", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_External_Visio_Connector_ID")
+  @PortableSequence(name = "SEQ_EXTERNAL_VISIO_CONNECTOR_ID")
   @Column(name = "ID", nullable = false)
   private Long              id;
 
