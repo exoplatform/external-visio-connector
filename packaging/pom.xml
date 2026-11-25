@@ -26,6 +26,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
   <packaging>pom</packaging>
   <name>eXo Add-on:: External Visio Connector - packaging</name>
   <description>eXo Add-on:: eXo Layout management - Packaging</description>
+  <properties>
+    <!-- Generate and publish the CycloneDX SBOM of the deliverable zip -->
+    <sbom.skip>false</sbom.skip>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
